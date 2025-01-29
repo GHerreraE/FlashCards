@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+      Flashcards - Accueil
+    </title>
+    <style>
+      /* Reset de base */
+      
+      body,
+      h1,
+      h2,
+      p,
+      ul,
+      li,
+      a,
+      button {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        text-decoration: none;
+        list-style: none;
+        box-sizing: border-box;
+      }
+      
+      /* Styles globaux */
+      
+      body {
+        background-color: #f4f4f4;
+        color: #333;
+        text-align: center;
+      }
+      
+      /* Header */
+      
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 30px;
+        background-color: darkcyan;
+        position: relative;
+      }
+      
+      /* Logo */
+      
+      .logo h1 {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        transition: 0.3s;
+      }
+      
+      .logo:hover h1 {
+        color: #f8f9fa;
+      }
+      
+      /* Navigation */
+      
+      nav {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      
+      nav ul {
+        display: flex;
+        gap: 15px;
+      }
+      
+      nav ul li {
+        display: inline;
+      }
+      
+      .navigation-centre {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      nav ul li a {
+        color: white;
+        font-size: 16px;
+        padding: 10px 15px;
+        transition: 0.3s;
+        border-radius: 5px;
+      }
+      
+      nav ul li a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      
+      /* Boutons */
+      
+      button {
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        transition: 0.3s;
+      }
+      
+      /* Bouton Connexion */
+      
+      .login {
+        background-color: #28a745;
+        color: white;
+      }
+      
+      .login:hover {
+        background-color: #218838;
+      }
+      
+      /* Bouton Déconnexion */
+      
+      .logout {
+        background-color: #dc3545;
+        color: white;
+      }
+      
+      .logout:hover {
+        background-color: #c82333;
+      }
+      
+      /* Contenu principal */
+      
+      main {
+        margin-top: 50px;
+        padding: 20px;
+      }
+      
+      section {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: auto;
+      }
+      
+      h2 {
+        color: #007bff;
+        margin-bottom: 15px;
+      }
+      
+      p {
+        font-size: 18px;
+        color: #555;
+      }
+      
+      .button-login-not {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        align-content: center;
+        flex-direction: row;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo-text">
+        <a href="index.html" class="logo">
+          <h1>
+            Flashcards
+          </h1>
+        </a>
+      </div>
+      <nav>
+        <ul>
+          <div class="navigation-centre">
+            <li>
+              <a href="index.html">Accueil</a>
+            </li>
+            <li>
+              <a href="about.html">À propos</a>
+            </li>
+            <li>
+              <a href="contact.html">Contact</a>
+            </li>
+          </div>
+          <div class="button-login-not">
+            <li>
+              <button class="login" onclick="window.location.href='login.html'">Connexion</button>
+            </li>
+            <li>
+              <button class="logout" onclick="window.location.href='login.html'">Déconnexion</button>
+            </li>
+          </div>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section>
+        <h2>
+          Bienvenue sur Flashcards
+        </h2>
+        <p>
+          Apprenez de nouvelles choses facilement avec nos flashcards interactives.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
