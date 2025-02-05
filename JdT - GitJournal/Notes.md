@@ -6,3 +6,7 @@
   ![alt text](image.png)
 - Resultat des test + suite
 - Mauvaise manipulation sur github, je sais pas ce que j'ai fait (squash et trucs), je voulais modifier le temps d'un comit. Je fais ce comit pour dire que j'ai pris plus de temps sur le comit precedent
+
+# 05/02/2025
+
+- Petite introduction de la part du prof par rapport à l'usage libre des outils.
