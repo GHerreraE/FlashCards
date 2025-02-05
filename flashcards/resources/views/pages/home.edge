@@ -10,43 +10,36 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <!-- Intégration du fichier CSS principal -->
     <link rel="stylesheet" href="/css/home.css" />
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>
-        Ma Page
-      </title>
-      <link rel="stylesheet" href="/css/app.css" />
-    </head>
 
   </head>
   <body>
     <header>
       <!-- Logo cliquable renvoyant vers l'accueil -->
-      <div class="logo" onclick="window.location.href='index.html';">
+      <a class="logo" href="{{ route('home') }}">
         Flashcards
-      </div>
+      </a>
 
       <!-- Menu de navigation central -->
       <nav>
         <ul>
           <li>
-            <a href="index.html">Accueil</a>
+            <a href="{{ route('home') }}">Accueil</a>
           </li>
           <li>
-            <a href="about.html">À propos</a>
+            <a href="{{ route('apropos') }}">À propos</a>
           </li>
           <li>
-            <a href="contact.html">Contact</a>
+            <a href="{{ route('contact') }}">Contact</a>
           </li>
         </ul>
       </nav>
 
-      <!-- Bouton de déconnexion unique et esthétique -->
+      <!-- Bouton de connexion vers la route nommée "login" -->
       <div class="actions">
-        <button onclick="window.location.href='login.html';">Déconnexion</button>
+        <button onclick="window.location.href='{{ route('login') }}';">
+          Se connecter
+        </button>
       </div>
     </header>
 

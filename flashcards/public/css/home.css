@@ -27,6 +27,7 @@ header {
   font-weight: 600;
   color: #fff;
   cursor: pointer;
+  text-decoration: none;
   transition: transform 0.2s;
 }
 
