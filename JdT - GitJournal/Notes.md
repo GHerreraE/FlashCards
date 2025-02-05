@@ -10,3 +10,4 @@
 # 05/02/2025
 
 - Petite introduction de la part du prof par rapport à l'usage libre des outils.
+- Toilette
