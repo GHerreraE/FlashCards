@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Flash-cards Gonzalo Herrera
+    </title>
+    @vite(['resources/css/home.css', 'resources/js/app.js'])
+    @stack('dumper')
+  </head>
+  <body>
+    @include('partials/header')
+
+    <!-- Section Hero -->
+    <section class="hero">
+      <h1>
+        Booste ta mémoire avec les Flash Cards !
+      </h1>
+      <p>
+        Un apprentissage rapide et interactif pour tous les âges.
+      </p>
+      <a href="{{ route('/login') }}" class="btn">Commencer maintenant</a>
+    </section>
+
+    <!-- Section Pourquoi ? -->
+    <section class="why">
+      <h2>
+        Pourquoi choisir Flash Cards ?
+      </h2>
+      <div class="advantages">
+        <div class="advantage">
+
+          <h3>
+            Mémorisation efficace
+          </h3>
+          <p>
+            La répétition espacée optimise ton apprentissage.
+          </p>
+        </div>
+        <div class="advantage">
+
+          <h3>
+            Apprentissage engageant
+          </h3>
+          <p>
+            Un système ludique qui te motive à réviser.
+          </p>
+        </div>
+        <div class="advantage">
+
+          <h3>
+            Accessible partout
+          </h3>
+          <p>
+            Révise sur smartphone, tablette ou PC, où que tu sois.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Fonctionnement -->
+    <section class="how">
+      <h2>
+        Comment ça marche ?
+      </h2>
+      <div class="steps">
+        <div class="step">
+          <span>1</span>
+          <h3>
+            Crée tes propres cartes
+          </h3>
+          <p>
+            Personnalise tes questions et réponses.
+          </p>
+        </div>
+        <div class="step">
+          <span>2</span>
+          <h3>
+            Révise intelligemment
+          </h3>
+          <p>
+            Utilise la révision espacée pour ne rien oublier.
+          </p>
+        </div>
+        <div class="step">
+          <span>3</span>
+          <h3>
+            Teste-toi avec des quiz
+          </h3>
+          <p>
+            Améliore tes connaissances en mode défi.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    @include('partials/footer')
+  </body>
+</html>
