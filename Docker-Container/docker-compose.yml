@@ -4,7 +4,7 @@ version: '3.3'
 services:
   db:
     image: mysql:8.0.30
-    container_name: db
+    container_name: db_flashcards
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: db_user
@@ -17,7 +17,7 @@ services:
       - ./scripts:/scripts
   phpmyadmin:
     image: phpmyadmin:5.2.0
-    container_name: pma
+    container_name: db_flashcards_pma
     links:
       - db
     environment:
