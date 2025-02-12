@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      À propos - Flashcards
+    </title>
+    @vite(['resources/css/apropos.css', 'resources/js/app.js'])
+    @stack('dumper')
+  </head>
+  <body>
+
+    @include('partials/header')
+    <main>
+      <section class="about">
+        <h1>
+          À propos de Flashcards
+        </h1>
+        <p>
+          Flashcards est une plateforme d'apprentissage interactive qui aide les étudiants et les professionnels
+                à mémoriser efficacement des informations grâce à la répétition espacée et à des quiz ludiques.
+        </p>
+
+        <h2>
+          Notre mission
+        </h2>
+        <p>
+          Nous voulons rendre l'apprentissage plus efficace et accessible à tous, en offrant un outil simple et
+                intuitif basé sur des principes scientifiques de mémorisation.
+        </p>
+
+        <h2>
+          Pourquoi utiliser Flashcards ?
+        </h2>
+        <ul class="features">
+          <li>
+            <strong>Répétition espacée :</strong>Une méthode d'apprentissage optimisée pour mieux retenir l'information.
+          </li>
+          <li>
+            <strong>Personnalisation :</strong>Crée tes propres cartes avec du texte, des images et des indices.
+          </li>
+          <li>
+            <strong>Multiplateforme :</strong>Accessible sur ordinateur, tablette et smartphone.
+          </li>
+          <li>
+            <strong>Mode Quiz :</strong>Teste tes connaissances avec des exercices interactifs.
+          </li>
+          <li>
+            <strong>Suivi de progression :</strong>Analyse tes performances pour améliorer ton apprentissage.
+          </li>
+        </ul>
+
+        <h2>
+          Qui sommes-nous ?
+        </h2>
+        <p>
+          Flashcards a été développé par Gonzalo Herrera et son équipe, passionnés par l'éducation et la technologie.
+                Nous croyons en l'apprentissage continu et voulons offrir une solution innovante pour aider les apprenants du monde entier.
+        </p>
+      </section>
+    </main>
+    @include('partials/footer')
+  </body>
+</html>

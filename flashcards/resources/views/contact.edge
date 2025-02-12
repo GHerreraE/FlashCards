@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Contact - Flashcards
+    </title>
+    @vite(['resources/css/contact.css', 'resources/js/app.js'])
+    @stack('dumper')
+
+  </head>
+  <body>
+
+    @include('partials/header')
+
+    <!-- ✅ Section Contact -->
+    <main>
+      <section class="contact">
+        <h1>
+          Contacte-nous
+        </h1>
+        <p>
+          Une question ou un souci ? Envoie-nous un message et nous te répondrons rapidement.
+        </p>
+
+        <!-- Formulaire de contact -->
+        <form action="/contact-submit" method="POST">
+          <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" id="name" name="name" placeholder="Ton nom" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Ton email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Écris ton message ici..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn">Envoyer</button>
+        </form>
+      </section>
+    </main>
+
+    @include('partials/footer')
+
+  </body>
+</html>

@@ -1,0 +1,185 @@
+/* ✅ Reset des styles pour une base propre */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ✅ Structure générale */
+body {
+  background-color: #f0f2f5;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1; /* Permet au contenu de s'étendre et garde le footer en bas */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* ✅ HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: linear-gradient(90deg, #1a2980, #26d0ce);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+/* ✅ Logo */
+.logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+/* ✅ Navigation */
+nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+nav ul li {
+  list-style: none;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.1em;
+  position: relative;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #e0e0e0;
+}
+
+/* ✅ Bouton Connexion */
+.btn-login {
+  background: linear-gradient(90deg, #ff9800, #e68900);
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: inline-block;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-login:hover {
+  background: linear-gradient(90deg, #e68900, #ff9800);
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-login:active {
+  transform: scale(0.98);
+}
+
+/* ✅ SECTION À PROPOS */
+.about {
+  max-width: 800px;
+  text-align: center;
+}
+
+.about h1,
+.about h2 {
+  color: #1a2980;
+  margin-bottom: 15px;
+}
+
+.about p {
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+
+/* ✅ Liste des fonctionnalités */
+.features {
+  list-style: none;
+  text-align: left;
+  padding: 0;
+}
+
+.features li {
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.features li::before {
+  content: '✔';
+  position: absolute;
+  left: 0;
+  color: #ff9800;
+  font-weight: bold;
+}
+
+/* ✅ FOOTER */
+footer {
+  background: #1a2980;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 1em;
+  width: 100%;
+  margin-top: auto;
+}
+
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .btn-login {
+    margin-top: 10px;
+  }
+
+  .about {
+    width: 90%;
+  }
+}
