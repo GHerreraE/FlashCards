@@ -17,7 +17,8 @@
         <p>
           Connectez-vous pour accéder à vos flashcards et gérer votre compte.
         </p>
-        <form action="/login" method="POST">
+        <form action="{{ route('login') }}" method="POST">
+          @csrf
           <div class="form-group">
             <label for="email">Email :</label>
             <input type="email" id="email" name="email" placeholder="Votre email" required />
@@ -29,7 +30,7 @@
           <button type="submit" class="btn">Se connecter</button>
         </form>
         <p class="redirect">
-          Pas encore inscrit ? <a href="/register">Créez un compte ici</a>.
+          Pas encore inscrit ? <a href="{{ route('register') }}">Créez un compte ici</a>.
         </p>
       </section>
     </main>

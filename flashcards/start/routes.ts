@@ -16,37 +16,49 @@ const testUser = {
 }
 
 // Route pour afficher la page d'accueil
-router.get('/', async ({ view, session }) => {
-  const isAuthenticated = session.get('loggedIn')
-  return view.render('home', { isAuthenticated })
-})
+router
+  .get('/', async ({ view, session }) => {
+    const isAuthenticated = session.get('loggedIn')
+    return view.render('home', { isAuthenticated })
+  })
+  .as('home')
 
 // Route pour afficher la page d'apropos
-router.get('/apropos', async ({ view }) => {
-  return view.render('apropos')
-})
+router
+  .get('/apropos', async ({ view }) => {
+    return view.render('apropos')
+  })
+  .as('apropos')
 
 // Route pour afficher la page de connexion
-router.get('/login', async ({ view }) => {
-  return view.render('login')
-})
+router
+  .get('/login', async ({ view }) => {
+    return view.render('login')
+  })
+  .as('login')
 
 // Route pour afficher la page de registre
-router.get('/register', async ({ view }) => {
-  return view.render('register')
-})
+router
+  .get('/register', async ({ view }) => {
+    return view.render('register')
+  })
+  .as('register')
 
 // Route pour afficher la page de contact
-router.get('/contact', async ({ view }) => {
-  return view.render('contact')
-})
+router
+  .get('/contact', async ({ view }) => {
+    return view.render('contact')
+  })
+  .as('contact')
 
 // Route pour se déconnecter
-router.get('/logout', async ({ auth, response, session }) => {
-  await auth.use('web').logout()
-  session.clear()
-  return response.redirect('/')
-})
+router
+  .get('/logout', async ({ auth, response, session }) => {
+    await auth.use('web').logout()
+    session.clear()
+    return response.redirect('/')
+  })
+  .as('logout')
 
 router.post('/login', async ({ request, response, session }) => {
   // Récupération des données du formulaire
