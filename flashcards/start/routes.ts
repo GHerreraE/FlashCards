@@ -3,46 +3,50 @@
 | Routes file
 |--------------------------------------------------------------------------
 |
-| The routes file is used for defining the HTTP routes.
+| Le fichier des routes est utilisé pour définir les routes HTTP.
 |
 */
 
-// on import le router
 import router from '@adonisjs/core/services/router'
-
-const testUser = {
-  email: 'test@example.com',
-  password: 'password123',
-}
+import AuthController from '#controllers/auth_controller'
 
 // Route pour afficher la page d'accueil
 router
   .get('/', async ({ view, session }) => {
-    const isAuthenticated = session.get('loggedIn')
+    const isAuthenticated = session.get('loggedIn', false)
     return view.render('home', { isAuthenticated })
   })
   .as('home')
 
-// Route pour afficher la page d'apropos
+// Route pour afficher la page "À propos"
 router
   .get('/apropos', async ({ view }) => {
     return view.render('apropos')
   })
   .as('apropos')
 
-// Route pour afficher la page de connexion
+// Route pour afficher la page de connexion (uniquement si l'utilisateur n'est pas connecté)
 router
-  .get('/login', async ({ view }) => {
+  .get('/login', async ({ auth, response, view }) => {
+    if (auth.use('web').isAuthenticated) {
+      return response.redirect('/')
+    }
     return view.render('login')
   })
   .as('login')
 
-// Route pour afficher la page de registre
+// Route pour afficher le formulaire d'inscription
 router
-  .get('/register', async ({ view }) => {
+  .get('/register', async ({ auth, response, view }) => {
+    if (auth.use('web').isAuthenticated) {
+      return response.redirect('/')
+    }
     return view.render('register')
   })
-  .as('register')
+  .as('showRegister')
+
+// Route pour gérer l'inscription
+router.post('/register', [AuthController, 'register']).as('register')
 
 // Route pour afficher la page de contact
 router
@@ -59,22 +63,3 @@ router
     return response.redirect('/')
   })
   .as('logout')
-
-router.post('/login', async ({ request, response, session }) => {
-  // Récupération des données du formulaire
-  console.log('bonjour')
-  const { email, password } = request.only(['email', 'password'])
-
-  // Vérification des identifiants avec testUser
-  if (email === testUser.email && password === testUser.password) {
-    // On simule la connexion en stockant dans la session
-    session.put('loggedIn', true)
-    session.put('userId', 1)
-    // Redirection vers la page des flashcards
-    return response.redirect('/flashcards')
-  } else {
-    // En cas d'erreur, flash d'un message et redirection vers la page précédente
-    session.flash({ error: 'Identifiants incorrects.' })
-    return response.redirect('back')
-  }
-})
