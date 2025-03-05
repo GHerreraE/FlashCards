@@ -1,30 +1,40 @@
-import type { HttpContextContract } from '@adonisjs/core/http'
+import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
-import RegisterValidator from '#validators/register'
+import hash from '@adonisjs/core/services/hash'
 
 export default class AuthController {
-  public async register({ request, response, session }: HttpContextContract) {
-    const payload = await request.validate(RegisterValidator)
+  public async login(ctx: HttpContext) {
+    const { request, auth, response, session } = ctx
+    const { username, password } = request.only(['username', 'password'])
 
-    // Vérifier si le username existe déjà
-    const existingUser = await User.findBy('username', payload.username)
-    if (existingUser) {
-      session.flash({ error: "Ce nom d'utilisateur est déjà pris." })
-      return response.redirect('back')
+    if (!username || !password) {
+      session.flash({ error: "Veuillez fournir un nom d'utilisateur et un mot de passe." })
+      return response.redirect('/')
     }
-
     try {
-      const user = await User.create({
-        username: payload.username,
-        password: payload.password,
-        isAdmin: false,
-      })
+      // Rechercher l'utilisateur par nom d'utilisateur
+      const user = await User.query().where('username', username).firstOrFail()
+      console.log('user:', user)
+      // Vérifier le mot de passe
+      console.log(user.password, password)
+      if (!(await hash.verify(user.password, password))) {
+        throw new Error('Invalid credentials')
+      }
 
-      session.flash({ success: 'Inscription réussie ! Vous pouvez maintenant vous connecter.' })
-      return response.redirect('/login')
+      // Connecter l'utilisateur
+      await auth.use('web').login(user)
+
+      session.flash({ success: 'Connexion réussie !' })
+      return response.redirect('/home') // Redirige vers le tableau de bord
     } catch (error) {
-      session.flash({ error: "Une erreur est survenue lors de l'inscription." })
-      return response.redirect('back')
+      session.flash({ error: 'Identifiants incorrects' })
+      return response.redirect('/')
     }
+  }
+
+  public async logout(ctx: HttpContext) {
+    const { auth, response } = ctx
+    await auth.use('web').logout()
+    return response.redirect('/home')
   }
 }
