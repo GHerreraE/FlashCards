@@ -15,5 +15,16 @@
     </ul>
   </nav>
 
-  <a href="/logout">Deconnexion</a>
+  <!-- Formulaire de logout caché -->
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    {{ csrfField() }}
+  </form>
+  <!-- Lien de logout qui soumet le formulaire -->
+  <a
+    class="btn-logout"
+    href="#"
+    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+  >
+    Déconnexion
+  </a>
 </header>
