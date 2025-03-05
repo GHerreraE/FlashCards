@@ -1,71 +1,36 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const usernameInput = document.getElementById('username')
-  const passwordInput = document.getElementById('password')
-  const confirmPasswordInput = document.getElementById('password_confirmation')
-  const submitButton = document.getElementById('submitButton')
+// Sélectionne tous les champs du formulaire et le bouton
+const inputs = document.querySelectorAll("input[type='text'], input[type='password']")
+const submitButton = document.getElementById('submitButton')
+const flashMessage = document.getElementById('flash-message')
 
-  // Ajouter des éléments pour afficher les messages d'erreur
-  const usernameError = document.getElementById('usernameError')
-  const passwordError = document.getElementById('passwordError')
-  const confirmPasswordError = document.getElementById('confirmPasswordError')
+// Fonction qui vérifie que tous les champs sont valides
+function checkFormValidity() {
+  const isUsernameValid = document.getElementById('username').value.trim() !== ''
+  const isPasswordValid = document.getElementById('password').value.length >= 8
+  const isPasswordsMatch =
+    document.getElementById('password').value ===
+    document.getElementById('password_confirmation').value
 
-  // Cacher les messages d'erreur initialement
-  usernameError.textContent = ''
-  passwordError.textContent = ''
-  confirmPasswordError.textContent = ''
-
-  function validateForm() {
-    const usernameNotEmpty = usernameInput.value.trim() !== ''
-    const passwordValid = passwordInput.value.length >= 8
-    const passwordsMatch = passwordInput.value === confirmPasswordInput.value
-
-    // Afficher ou cacher le bouton d'envoi
-    if (usernameNotEmpty && passwordValid && passwordsMatch) {
-      submitButton.style.display = 'block'
-    } else {
-      submitButton.style.display = 'none'
+  if (isUsernameValid && isPasswordValid && isPasswordsMatch) {
+    submitButton.style.display = 'block'
+    flashMessage.style.display = 'none' // Cache le message si tout est valide
+  } else {
+    submitButton.style.display = 'none'
+    if (!isUsernameValid) {
+      flashMessage.classList.add('alert-danger')
+      flashMessage.textContent = "Le nom d'utilisateur est requis."
+    } else if (!isPasswordValid) {
+      flashMessage.classList.add('alert-danger')
+      flashMessage.textContent = 'Le mot de passe doit comporter au moins 8 caractères.'
+    } else if (!isPasswordsMatch) {
+      flashMessage.classList.add('alert-danger')
+      flashMessage.textContent = 'Les mots de passe ne correspondent pas.'
     }
+    flashMessage.style.display = 'flex'
   }
+}
 
-  function handleSubmit(event) {
-    event.preventDefault() // Empêcher l'envoi immédiat du formulaire
-
-    const usernameNotEmpty = usernameInput.value.trim() !== ''
-    const passwordValid = passwordInput.value.length >= 8
-    const passwordsMatch = passwordInput.value === confirmPasswordInput.value
-
-    // Afficher les messages d'erreur seulement lorsque l'utilisateur tente de soumettre
-    if (!usernameNotEmpty) {
-      usernameError.textContent = "Le nom d'utilisateur ne peut pas être vide."
-    } else {
-      usernameError.textContent = ''
-    }
-
-    if (!passwordValid) {
-      passwordError.textContent = 'Le mot de passe doit contenir au moins 8 caractères.'
-    } else {
-      passwordError.textContent = ''
-    }
-
-    if (!passwordsMatch) {
-      confirmPasswordError.textContent = 'Les mots de passe doivent correspondre.'
-    } else {
-      confirmPasswordError.textContent = ''
-    }
-
-    // Si tout est valide, soumettre le formulaire
-    if (usernameNotEmpty && passwordValid && passwordsMatch) {
-      document.querySelector('form').submit() // Soumettre le formulaire
-    }
-  }
-
-  // Écouter les changements pour valider en temps réel
-  usernameInput.addEventListener('input', validateForm)
-  passwordInput.addEventListener('input', validateForm)
-  confirmPasswordInput.addEventListener('input', validateForm)
-
-  // Validation du formulaire au clic du bouton
-  submitButton.addEventListener('click', handleSubmit)
-
-  validateForm() // Pour cacher le bouton dès le départ
+// Ajout des écouteurs d'événements pour chaque champ
+inputs.forEach((input) => {
+  input.addEventListener('input', checkFormValidity)
 })
