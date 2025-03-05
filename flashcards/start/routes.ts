@@ -1,65 +1,18 @@
-/*
-|--------------------------------------------------------------------------
-| Routes file
-|--------------------------------------------------------------------------
-|
-| Le fichier des routes est utilisé pour définir les routes HTTP.
-|
-*/
-
+import AuthController from '../app/controllers/auth_controller.js'
+import RegisterController from '#controllers/registers_controller'
 import router from '@adonisjs/core/services/router'
-import AuthController from '#controllers/auth_controller'
 
-// Route pour afficher la page d'accueil
-router
-  .get('/', async ({ view, session }) => {
-    const isAuthenticated = session.get('loggedIn', false)
-    return view.render('home', { isAuthenticated })
-  })
-  .as('home')
+// Affichage du formulaire d'inscription (GET)
+router.get('/register', [RegisterController, 'showRegister']).as('showRegister')
 
-// Route pour afficher la page "À propos"
-router
-  .get('/apropos', async ({ view }) => {
-    return view.render('apropos')
-  })
-  .as('apropos')
+// Traitement de l'inscription (POST)
+router.post('/register', [RegisterController, 'register']).as('handleRegister')
 
-// Route pour afficher la page de connexion (uniquement si l'utilisateur n'est pas connecté)
-router
-  .get('/login', async ({ auth, response, view }) => {
-    if (auth.use('web').isAuthenticated) {
-      return response.redirect('/')
-    }
-    return view.render('login')
-  })
-  .as('login')
-
-// Route pour afficher le formulaire d'inscription
-router
-  .get('/register', async ({ auth, response, view }) => {
-    if (auth.use('web').isAuthenticated) {
-      return response.redirect('/')
-    }
-    return view.render('register')
-  })
-  .as('showRegister')
-
-// Route pour gérer l'inscription
-router.post('/register', [AuthController, 'register']).as('register')
-
-// Route pour afficher la page de contact
-router
-  .get('/contact', async ({ view }) => {
-    return view.render('contact')
-  })
-  .as('contact')
-
-// Route pour se déconnecter
-router
-  .get('/logout', async ({ auth, response, session }) => {
-    await auth.use('web').logout()
-    session.clear()
-    return response.redirect('/')
-  })
-  .as('logout')
+router.on('/home').render('home').as('home')
+router.on('/login').render('login').as('login')
+router.on('/apropos').render('apropos').as('apropos')
+router.on('/contact').render('contact').as('contact')
+router.on('/homeuser').render('homeuser').as('homeuser')
+router.on('/').redirect('home')
+router.post('/login', [AuthController, 'login'])
+router.post('/logout', [AuthController, 'logout']).as('logout')
