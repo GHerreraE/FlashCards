@@ -6,6 +6,7 @@
       Se connecter - Flashcards
     </title>
     @vite(['resources/css/login.css', 'resources/js/app.js'])
+    @vite('resources/js/SignUpButton.js')
   </head>
   <body>
     @include('partials/header')
@@ -17,6 +18,21 @@
         <p>
           Connectez-vous pour accéder à vos flashcards et gérer votre compte.
         </p>
+        <!-- Debug : afficher le contenu complet de flash -->
+
+        @if (flash && flash.error)
+          <div class="alert alert-danger">
+            {{ flash.error }}
+          </div>
+        @endif
+        
+        @if (flash && flash.success)
+          <div class="alert alert-success">
+            {{ flash.success }}
+          </div>
+        @endif
+        
+        
         <form action="{{ route('login') }}" method="POST">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
