@@ -1,0 +1,245 @@
+/* === Reset Global et structure de la page === */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f0f2f5;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Le conteneur principal occupe l'espace restant */
+.homeuser-main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* === Section Deck Creation === */
+.deck-creation {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.deck-creation h1 {
+  font-size: 1.8em;
+  color: #1a2980;
+  margin-bottom: 20px;
+}
+
+/* Formulaire horizontal */
+.horizontal-form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.horizontal-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.horizontal-form .form-group label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.horizontal-form input[type='text'] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+/* Bouton */
+.horizontal-form .btn {
+  background: linear-gradient(90deg, #ff9800, #e68900);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.3s;
+}
+
+.horizontal-form .btn:hover {
+  background: linear-gradient(90deg, #e68900, #ff9800);
+  transform: scale(1.05);
+}
+
+/* === Section Deck List === */
+.deck-list {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.deck-list h2 {
+  font-size: 1.6em;
+  color: #1a2980;
+  margin-bottom: 20px;
+}
+
+.deck-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.deck-list .deck-item {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.deck-list .deck-item:last-child {
+  border-bottom: none;
+}
+
+.deck-list .deck-item h3 {
+  font-size: 1.2em;
+  color: #26d0ce;
+  margin-bottom: 5px;
+}
+
+.deck-list .deck-item p {
+  font-size: 1em;
+  color: #666;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .horizontal-form {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* === HEADER === */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: linear-gradient(90deg, #1a2980, #26d0ce);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.1em;
+  position: relative;
+  transition: color 0.3s;
+}
+
+nav ul li a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
+
+nav ul li a:hover {
+  color: #e0e0e0;
+}
+
+nav ul li a:hover::after {
+  width: 100%;
+}
+
+/* Bouton Connexion (login ou logout) */
+.btn-login,
+.btn-logout {
+  background: linear-gradient(90deg, #ff9800, #e68900);
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: inline-block;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-login:hover,
+.btn-logout:hover {
+  background: linear-gradient(90deg, #e68900, #ff9800);
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-login:active,
+.btn-logout:active {
+  transform: scale(0.98);
+}
+
+/* === FOOTER === */
+footer {
+  background: #1a2980;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 1em;
+}
+
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer p {
+  margin: 0;
+}
