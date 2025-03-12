@@ -11,6 +11,7 @@ export default class AuthController {
       session.flash({ error: "Veuillez fournir un nom d'utilisateur et un mot de passe." })
       return response.redirect('/')
     }
+
     try {
       // Rechercher l'utilisateur par nom d'utilisateur
       const user = await User.query().where('username', username).firstOrFail()
@@ -25,7 +26,7 @@ export default class AuthController {
       await auth.use('web').login(user)
 
       session.flash({ success: 'Connexion réussie !' })
-      return response.redirect('/home') // Redirige vers le tableau de bord
+      return response.redirect('/homeuser') // Redirige vers le tableau de bord
     } catch (error) {
       session.flash({ error: 'Identifiants incorrects' })
       return response.redirect('/')

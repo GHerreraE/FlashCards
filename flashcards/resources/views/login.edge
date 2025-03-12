@@ -18,6 +18,7 @@
           Connectez-vous pour accéder à vos flashcards et gérer votre compte.
         </p>
         <form action="{{ route('login') }}" method="POST">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
           <div class="form-group">
             <label for="username">Username :</label>
