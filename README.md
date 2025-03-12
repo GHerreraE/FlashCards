@@ -9,6 +9,7 @@ Projet de Gonzalo Herrera pour P_Bulles 2
 - NodeJs: v20.11.0
 - npm: v10.2.4
 - Docker Desktop: v4.10.0
+- Docker Engine: v20.10.17
 
 ### Procédure d'installation
 
@@ -18,6 +19,7 @@ Projet de Gonzalo Herrera pour P_Bulles 2
 
   - Dans le dossier `flashcards` (`cd flashcards`)
   - Executer `npm install`
+  - Renommer le fichier `.env.example` en `.env`
   - Puis `node ace generate:key`
 
 - Dans le dossier `Docker_MySQL` (`cd ../Docker-Container`)
