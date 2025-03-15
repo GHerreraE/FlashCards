@@ -1,6 +1,7 @@
+// app/Models/Deck.ts
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
-import User from '#models/user'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import Flashcard from '#models/flashcards'
 
 export default class Deck extends BaseModel {
   public static table = 't_decks'
@@ -9,20 +10,14 @@ export default class Deck extends BaseModel {
   declare id: number
 
   @column()
-  declare title: string
+  declare name: string
 
   @column()
-  declare description: string
-
-  @column({ columnName: 'user_id' })
-  declare userId: number
-
-  @belongsTo(() => User)
-  public user!: any
+  declare description: string // Add description for the deck (optional)
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  @hasMany(() => Flashcard)
+  declare flashcards: HasMany<typeof Flashcard> // Relationship with Flashcards
 }
