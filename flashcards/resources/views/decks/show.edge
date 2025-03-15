@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {{ deck.name }}
+    </title>
+    <link rel="stylesheet" href="/resources/css/show.css" />
+  </head>
+  <body>
+
+    <!-- Header section (Include header partial) -->
+    @include('partials/header')
+
+    <!-- Main Content -->
+    <main class="container">
+      <!-- Deck Details -->
+      <div class="deck-details">
+        <h1>
+          Deck Title: {{ deck.name }}
+        </h1>
+        <p class="deck-description">
+          Deck Description: {{ deck.description || 'No description available' }}
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+          <a href="{{ route('decks.edit', { id: deck.id }) }}" class="btn">Modify</a>
+          <button class="btn delete-button" data-deck-id="{{ deck.id }}">Delete Deck</button>
+        </div>
+      </div>
+
+      <!-- Add Flashcard Form -->
+      <div class="flashcard-form deck-form">
+        <!-- Added deck-form class here -->
+        <h2>
+          Add a Flashcard
+        </h2>
+        <form action="{{ route('flashcards.store', { deckId: deck.id }) }}" method="POST">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+
+          <div class="form-group">
+            <label for="question">Question</label>
+            <input type="text" name="question" id="question" required />
+          </div>
+
+          <div class="form-group">
+            <label for="answer">Answer</label>
+            <input type="text" name="answer" id="answer" required />
+          </div>
+
+          <button type="submit" class="btn">Add Flashcard</button>
+        </form>
+      </div>
+
+      <!-- Flashcards List -->
+      <div class="flashcard-list">
+        <h3>
+          Flashcards
+        </h3>
+        <ul>
+          @if(deck.flashcards)
+            @each(flashcard in deck.flashcards)
+              <li class="flashcard-item">
+                <strong>{{ flashcard.question }}</strong>: {{ flashcard.answer }}
+              </li>
+            @endeach
+          @else
+            <li class="no-flashcards">
+              No flashcards found for this deck.
+            </li>
+          @endif
+        </ul>
+      </div>
+    </main>
+
+    <!-- Footer section (Include footer partial) -->
+    @include('partials/footer')
+
+    <!-- JavaScript to handle deck deletion -->
+    <script>
+      document.querySelector(".delete-button").addEventListener("click", function() {
+        const deckId = this.getAttribute("data-deck-id");
+        const confirmation = confirm("Are you sure you want to delete this deck?");
+        if (confirmation) {
+          fetch(`/decks/${deckId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRF-TOKEN": "{{ csrfToken }}"
+            }
+          }).then(response => {
+            if (response.ok) {
+              window.location.href = "/decks"; // Redirect to decks list after deletion
+            } else {
+              alert("Failed to delete the deck");
+            }
+          }).catch(error => {
+            console.error("Error:", error);
+            alert("Error deleting deck");
+          });
+        }
+      });
+    </script>
+
+  </body>
+</html>
