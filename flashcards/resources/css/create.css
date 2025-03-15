@@ -1,0 +1,74 @@
+/* Center and Style Form */
+.deck-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: auto;
+}
+
+.deck-form .form-group {
+  margin-bottom: 15px;
+}
+
+.deck-form label {
+  font-weight: 500;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.deck-form input,
+.deck-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.deck-form textarea {
+  height: 80px;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Apply Global Button Styles */
+.btn {
+  background: linear-gradient(90deg, #ff9800, #e68900);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.3s;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, #e68900, #ff9800);
+  transform: scale(1.05);
+}
+
+/* Cancel Button */
+.cancel-button {
+  background: #ccc;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background: #bbb;
+  transform: scale(1.05);
+}
