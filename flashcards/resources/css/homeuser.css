@@ -124,6 +124,36 @@ body {
   color: #666;
 }
 
+.deck-item {
+  border-bottom: 1px solid #eee;
+  padding: 15px;
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+
+.deck-item:last-child {
+  border-bottom: none;
+}
+
+/* Make the entire deck container clickable */
+.deck-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px;
+  border-radius: 8px;
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+
+/* Hover effect */
+.deck-link:hover {
+  background: rgba(38, 208, 206, 0.1);
+  transform: scale(1.02);
+}
+
 /* === Responsive === */
 @media (max-width: 768px) {
   .horizontal-form {

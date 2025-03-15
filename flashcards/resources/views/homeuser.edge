@@ -12,45 +12,42 @@
     @include('partials/headerPostLogin')
 
     <main class="homeuser-main">
-      <!-- Section de création de deck -->
+      <!-- Section to create a new deck -->
       <section class="deck-creation">
         <h1>
           Créer un nouveau Deck
         </h1>
-        <form action="{{ route('createDeck') }}" method="POST" class="horizontal-form">
-          <!-- Injection du token CSRF -->
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-
-          <div class="form-group">
-            <label for="deck-name">Nom du Deck :</label>
-            <input type="text" id="deck-name" name="name" placeholder="Nom du deck" required />
-          </div>
-
-          <div class="form-group">
-            <label for="deck-description">Description :</label>
-            <input type="text" id="deck-description" name="description" placeholder="Description" required />
-          </div>
-
+        <form action="/decks/create" method="GET" class="horizontal-form">
           <button type="submit" class="btn">Ajouter Deck</button>
         </form>
       </section>
 
-      <!-- Section d'affichage de la liste des decks -->
+      <!-- Section to display deck list -->
       <section class="deck-list">
         <h2>
           Mes Decks
         </h2>
         <ul>
-          @each(deck in decks)
-            <li class="deck-item">
-              <h3>
-                {{ deck.name }}
-              </h3>
-              <p>
-                {{ deck.description }}
-              </p>
-            </li>
-          @endeach
+          @if(decks && decks.length > 0)
+            <!-- Ensure decks is an array -->
+            @each(deck in decks)
+              <li class="deck-item">
+                <a href="/decks/{{ deck.id }}" class="deck-link">
+                  <h3>
+                    {{ deck.name }}
+                  </h3>
+                  <p>
+                    {{ deck.description }}
+                  </p>
+                </a>
+              </li>
+            @endeach
+          @else
+            <p>
+              Aucun deck trouvé
+            </p>
+            <!-- No decks found message -->
+          @endif
         </ul>
       </section>
     </main>
