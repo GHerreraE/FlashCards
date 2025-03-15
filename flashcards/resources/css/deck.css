@@ -1,0 +1,256 @@
+/* === Reset Global et structure de la page === */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f0f2f5;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === Section Edit Deck === */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Formulaire pour l'édition */
+.deck-form {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.deck-form h1 {
+  font-size: 1.8em;
+  color: #1a2980;
+  margin-bottom: 20px;
+}
+
+/* Form Group */
+.deck-form .form-group {
+  margin-bottom: 20px;
+}
+
+.deck-form .form-group label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.deck-form input[type='text'],
+.deck-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  width: 100%;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.deck-form input[type='text']:focus,
+.deck-form textarea:focus {
+  border-color: #26d0ce;
+  outline: none;
+}
+
+.deck-form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Button Group */
+.deck-form .button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+/* Confirm Button */
+.deck-form .button-group .btn {
+  background: linear-gradient(90deg, #ff9800, #e68900);
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.deck-form .button-group .btn:hover {
+  background: linear-gradient(90deg, #e68900, #ff9800);
+  transform: scale(1.05);
+}
+
+.deck-form .button-group .cancel-button {
+  background: #f44336;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.deck-form .button-group .cancel-button:hover {
+  background: #e53935;
+  transform: scale(1.05);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .deck-form {
+    padding: 15px;
+  }
+
+  .deck-form .form-group {
+    width: 100%;
+  }
+
+  .deck-form input[type='text'],
+  .deck-form textarea {
+    width: 100%;
+  }
+
+  .deck-form .button-group {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .deck-form .button-group .btn,
+  .deck-form .button-group .cancel-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* === HEADER === */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: linear-gradient(90deg, #1a2980, #26d0ce);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.1em;
+  position: relative;
+  transition: color 0.3s;
+}
+
+nav ul li a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
+
+nav ul li a:hover {
+  color: #e0e0e0;
+}
+
+nav ul li a:hover::after {
+  width: 100%;
+}
+
+/* Bouton Connexion (login ou logout) */
+.btn-login,
+.btn-logout {
+  background: linear-gradient(90deg, #ff9800, #e68900);
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: inline-block;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-login:hover,
+.btn-logout:hover {
+  background: linear-gradient(90deg, #e68900, #ff9800);
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-login:active,
+.btn-logout:active {
+  transform: scale(0.98);
+}
+
+/* === FOOTER === */
+footer {
+  background: #1a2980;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 1em;
+}
+
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer p {
+  margin: 0;
+}
