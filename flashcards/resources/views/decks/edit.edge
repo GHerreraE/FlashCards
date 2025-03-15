@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Edit Deck
+    </title>
+    <link rel="stylesheet" href="/resources/css/edit.css" />
+  </head>
+  <body>
+
+    @include('partials/header')
+
+    <!-- Main Content -->
+    <main class="container">
+      <h1>
+        Edit Deck: {{ deck.name }}
+      </h1>
+
+      <div class="deck-form">
+        <form id="edit-deck-form">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          <input type="hidden" name="deck_id" value="{{ deck.id }}" />
+
+          <div class="form-group">
+            <label for="name">Deck Title:</label>
+            <input type="text" name="name" id="name" value="{{ deck.name }}" required />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Deck Description:</label>
+            <textarea name="description" id="description" required>{{ deck.description }}</textarea>
+          </div>
+
+          <!-- Button Group -->
+          <div class="button-group">
+            <button type="submit" class="btn">Confirm Changes</button>
+            <a href="/decks" class="btn cancel-button">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    @include('partials/footer')
+
+    <!-- JavaScript to handle form submission -->
+    <script>
+      document.getElementById("edit-deck-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const deckId = document.querySelector('[name="deck_id"]').value;
+        const name = document.querySelector('[name="name"]').value;
+        const description = document.querySelector('[name="description"]').value;
+        const csrfToken = document.querySelector('[name="_csrf"]').value;
+        const data = {
+          name: name,
+          description: description,
+          _csrf: csrfToken,
+          _method: "PUT"
+        };
+        // Use fetch to update the deck
+        fetch(`/decks/${deckId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken
+          },
+          body: JSON.stringify(data)
+        }).then(response => {
+          // Log response to check status and body content
+          console.log("Response status:", response.status);
+          console.log("Response body:", response);
+          if (!response.ok) {
+            throw new Error(`Failed to update the deck. Status: ${response.status}`);
+          }
+          return response.json(); // Parse the JSON response if OK
+        }).then(responseData => {
+          // Log the response data to see what is returned
+          console.log("Response data:", responseData);
+          if (responseData && responseData.success) {
+            window.location.href = "/decks"; // Redirect to deck list page after successful update
+          } else {
+            throw new Error("Failed to update deck due to backend error.");
+          }
+        }).catch(error => {
+          console.error("Error:", error);
+          alert("Error updating deck: " + error.message);
+        });
+      });
+    </script>
+
+  </body>
+</html>
