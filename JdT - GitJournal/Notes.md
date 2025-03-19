@@ -11,3 +11,9 @@
 
 - Petite introduction de la part du prof par rapport à l'usage libre des outils.
 - Toilette
+
+# 19/03/2025
+
+- Introduction du projet P_BULLE avec l'autre classe en parallelle.
+- Lire le cahier de charges avec le prof
+- Préparation du dossier du projet + CdC signé
