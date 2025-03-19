@@ -22,7 +22,7 @@
         <form id="edit-deck-form">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
           <input type="hidden" name="deck_id" value="{{ deck.id }}" />
-
+          @include('partials/flash_messages')
           <div class="form-group">
             <label for="name">Deck Title:</label>
             <input type="text" name="name" id="name" value="{{ deck.name }}" required />

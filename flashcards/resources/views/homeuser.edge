@@ -13,10 +13,13 @@
 
     <main class="homeuser-main">
       <!-- Section to create a new deck -->
+      @include('partials/flash_messages')
       <section class="deck-creation">
+
         <h1>
           Créer un nouveau Deck
         </h1>
+
         <form action="/decks/create" method="GET" class="horizontal-form">
           <button type="submit" class="btn">Ajouter Deck</button>
         </form>
