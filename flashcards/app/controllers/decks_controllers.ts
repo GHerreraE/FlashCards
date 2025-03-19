@@ -32,9 +32,8 @@ export default class DecksController {
   public async store({ request, response }: HttpContext) {
     const { name, description } = request.only(['name', 'description'])
 
-    // Check if the description is less than 10 characters
-    if (description.length < 10) {
-      // If the description is too short, redirect to the homepage
+    // Si la description est null ou vide, on redirige directement
+    if (!description || description.length < 10) {
       return response.redirect('/homeuser')
     }
 
@@ -42,7 +41,6 @@ export default class DecksController {
     const existingDeck = await Deck.query().where('name', name).first()
 
     if (existingDeck) {
-      // If a deck with the same name exists, redirect to the homepage
       return response.redirect('/decks')
     }
 
@@ -52,10 +50,8 @@ export default class DecksController {
       description,
     })
 
-    // Log the new deck creation
     console.log('New Deck Created:', { name, description })
 
-    // Redirect to the homepage after creating the deck
     return response.redirect('/decks')
   }
 
