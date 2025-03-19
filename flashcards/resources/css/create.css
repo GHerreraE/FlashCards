@@ -1,68 +1,132 @@
-/* Center and Style Form */
-.deck-form {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  margin: auto;
+/* --------------------------
+   GLOBAL STYLES
+--------------------------- */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #f9f9f9 0%, #ececec 100%);
+  color: #333;
+}
+/* Styles habituels du container, si besoin */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
+/* Le wrapper prend toute la place disponible en hauteur */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* pour forcer le footer en bas */
+}
+/* Le main s’étire pour remplir l’espace restant */
+main.container {
+  flex: 1;
+}
+
+/* --------------------------
+   PAGE TITLE
+--------------------------- */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #444;
+}
+
+/* --------------------------
+   FORM WRAPPER
+--------------------------- */
+.deck-form {
+  background-color: #fff;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* --------------------------
+   FORM GROUP
+--------------------------- */
 .deck-form .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 1.5rem;
 }
 
 .deck-form label {
-  font-weight: 500;
-  color: #333;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
 }
 
+/* --------------------------
+   INPUTS & TEXTAREAS
+--------------------------- */
 .deck-form input,
 .deck-form textarea {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 1em;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.deck-form input:focus,
+.deck-form textarea:focus {
+  outline: none;
+  border-color: #ff9800;
 }
 
 .deck-form textarea {
-  height: 80px;
+  min-height: 120px;
+  resize: vertical; /* Permet de redimensionner verticalement */
 }
 
-/* Button Group */
+/* --------------------------
+   BUTTON GROUP
+--------------------------- */
 .button-group {
   display: flex;
-  gap: 15px;
-  margin-top: 10px;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
-/* Apply Global Button Styles */
+/* --------------------------
+   BUTTONS
+--------------------------- */
 .btn {
-  background: linear-gradient(90deg, #ff9800, #e68900);
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
   color: #fff;
-  padding: 10px 20px;
+  text-decoration: none;
+  text-align: center;
+  background: linear-gradient(90deg, #ff9800, #e68900);
   border: none;
   border-radius: 25px;
-  font-size: 1em;
   cursor: pointer;
   transition:
     background 0.3s,
     transform 0.2s,
     box-shadow 0.3s;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
 }
 
 .btn:hover {
   background: linear-gradient(90deg, #e68900, #ff9800);
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Cancel Button */
 .cancel-button {
   background: #ccc;
   color: #333;
@@ -70,5 +134,35 @@
 
 .cancel-button:hover {
   background: #bbb;
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --------------------------
+   RESPONSIVE MEDIA QUERIES
+--------------------------- */
+@media (max-width: 480px) {
+  .deck-form {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .deck-form .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+footer {
+  background: #1a2980;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 1em;
+  width: 100%;
+  margin-top: auto;
 }
