@@ -17,22 +17,7 @@
         </h1>
 
         <!-- Debug : afficher le contenu complet de flash -->
-
-        @if (flash.values.error)
-          <div class="alert alert-danger">
-            {{ flash.values.error }}
-          </div>
-        @endif
-                
-        @if (flash.values.success)
-          <div class="alert alert-success">
-            {{ flash.values.success }}
-          </div>
-        @endif
-        
-          
-        
-        
+        @include('partials/flash_messages')
         <form action="{{ route('handleRegister') }}" method="POST">
           {{ csrfField() }}
           <div class="form-group">

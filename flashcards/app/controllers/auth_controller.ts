@@ -48,7 +48,6 @@ export default class AuthController {
       // Connecter l'utilisateur
       await auth.use('web').login(user)
       console.log('Utilisateur connecté avec succès:', user)
-      session.flash({ success: 'Connexion réussie !' })
       return response.redirect('/homeuser')
     } catch (error) {
       console.error('Erreur lors du login:', error)

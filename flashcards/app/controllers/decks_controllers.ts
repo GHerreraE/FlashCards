@@ -5,17 +5,17 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class DecksController {
   // Fetch all decks
-  public async index({ view }: HttpContext) {
+  public async index({ view, session }: HttpContext) {
     // Fetch all decks (no flashcards preloaded)
     const decks = await Deck.all()
 
     // Pass the decks to the view
-    return view.render('homeuser', { decks })
+    return view.render('homeuser', { decks, flash: session.flashMessages || {} })
   }
 
   // Show the form to create a new deck or handle it
-  public async create({ view }: HttpContext) {
-    return view.render('decks/create') // Render the deck creation view
+  public async create({ view, session }: HttpContext) {
+    return view.render('decks/create', { flash: session.flashMessages || {} })
   }
 
   public async show({ params, response, view }: HttpContext) {
@@ -29,11 +29,12 @@ export default class DecksController {
     }
   }
 
-  public async store({ request, response }: HttpContext) {
+  public async store({ request, response, session }: HttpContext) {
     const { name, description } = request.only(['name', 'description'])
 
     // Si la description est null ou vide, on redirige directement
     if (!description || description.length < 10) {
+      session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
       return response.redirect('/homeuser')
     }
 
@@ -41,6 +42,7 @@ export default class DecksController {
     const existingDeck = await Deck.query().where('name', name).first()
 
     if (existingDeck) {
+      session.flash({ error: 'Un deck avec ce nom existe déjà.' })
       return response.redirect('/decks')
     }
 
@@ -51,75 +53,85 @@ export default class DecksController {
     })
 
     console.log('New Deck Created:', { name, description })
-
+    session.flash({ success: 'Deck créé avec succès !' })
     return response.redirect('/decks')
   }
 
   // Show the form to edit a deck's title and description
-  public async edit({ params, view }: HttpContext) {
+  public async edit({ params, view, session }: HttpContext) {
     const deck = await Deck.findOrFail(params.id)
-    return view.render('decks/edit', { deck })
+    return view.render('decks/edit', { deck, flash: session.flashMessages || {} })
   }
-
-  public async update({ params, request, response }: HttpContext) {
+  public async update({ params, request, response, session }: HttpContext) {
     try {
       const deck = await Deck.findOrFail(params.id)
       const { name, description } = request.only(['name', 'description'])
 
-      // Validate the input fields
       if (!name || !description) {
-        return response.status(400).json({ message: 'Name and description are required' })
+        session.flash({ error: 'Le nom et la description sont requis.' })
+        return response.status(400).json({ error: 'Le nom et la description sont requis.' })
       }
 
-      // Update the deck
+      if (description.length < 10) {
+        session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
+        return response
+          .status(400)
+          .json({ error: 'La description doit contenir au moins 10 caractères.' })
+      }
+
       deck.name = name
       deck.description = description
       await deck.save()
 
-      // Return a JSON response indicating success
+      session.flash({ success: 'Deck mis à jour avec succès !' })
       return response.json({ success: true, deck })
     } catch (error) {
       console.log('Error updating deck:', error)
-      return response.status(500).json({ success: false, message: 'Error updating deck' })
+      session.flash({ error: 'Erreur lors de la mise à jour du deck.' })
+      return response.status(500).json({ error: 'Erreur lors de la mise à jour du deck.' })
     }
   }
 
-  public async destroy({ params, response, view }: HttpContext) {
-    // Try to find the deck by ID
+  public async destroy({ params, response, session }: HttpContext) {
     const deck = await Deck.find(params.id)
-
     if (!deck) {
-      // Return an error if deck is not found
+      session.flash({ error: 'Deck not found.' })
       return response.status(404).json({ message: 'Deck not found' })
     }
-
-    // Attempt to delete the deck
     try {
       await deck.delete()
-
-      // Redirect the user after successful deletion
-      return view.render('./homeuser') // You can redirect to another page, like the list of all decks
+      session.flash({ success: 'Deck supprimé avec succès !' })
+      return response.json({ success: true, message: 'Deck deleted' })
     } catch (error) {
-      // Handle the error and send a message if deletion fails
       console.log('Error deleting deck:', error)
-      return response.status(500).json({ message: 'Error deleting deck' })
+      session.flash({ error: 'Erreur lors de la suppression du deck.' })
+      return response.status(500).json({ success: false, message: 'Failed to delete the deck' })
     }
   }
 
-  // Store a new flashcard in the deck
-  public async storeFlashcard({ params, request, response }: HttpContext) {
-    const deck = await Deck.findOrFail(params.id)
+  public async storeFlashcard({ params, request, response, session }: HttpContext) {
+    try {
+      const deck = await Deck.findOrFail(params.id)
+      const { question, answer } = request.only(['question', 'answer'])
 
-    const { question, answer } = request.only(['question', 'answer'])
+      // Vérification que la question et la réponse sont renseignées
+      if (!question || !answer) {
+        session.flash({ error: 'La question et la réponse sont requises.' })
+        return response.status(400).json({ error: 'La question et la réponse sont requises.' })
+      }
 
-    // Create a new flashcard and associate it with the deck
-    await Flashcard.create({
-      deckId: deck.id,
-      question,
-      answer,
-    })
+      const flashcard = await Flashcard.create({
+        deckId: deck.id,
+        question,
+        answer,
+      })
 
-    // Redirect back to the deck's page after adding the flashcard
-    return response.redirect(`/decks/${params.id}`)
+      session.flash({ success: 'Carte créée avec succès !' })
+      return response.json({ success: true, flashcard })
+    } catch (error) {
+      console.log('Error creating flashcard:', error)
+      session.flash({ error: 'Erreur lors de la création de la carte.' })
+      return response.status(500).json({ error: 'Erreur lors de la création de la carte.' })
+    }
   }
 }
