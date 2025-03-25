@@ -18,12 +18,12 @@ export default class DecksController {
     return view.render('decks/create', { flash: session.flashMessages || {} })
   }
 
-  public async show({ params, response, view }: HttpContext) {
+  public async show({ params, response, view, session }: HttpContext) {
     try {
-      const deck = await Deck.findOrFail(params.id) // Find deck
+      const deck = await Deck.query().where('id', params.id).preload('flashcards').firstOrFail()
       const flashcards = await Flashcard.query().where('deck_id', deck.id) // Get its flashcards
 
-      return view.render('decks/show', { deck, flashcards }) // Pass both deck & flashcards
+      return view.render('decks/show', { deck, flashcards, flash: session.flashMessages || {} })
     } catch (error) {
       return response.status(404).json({ message: 'Deck not found' })
     }
@@ -106,32 +106,6 @@ export default class DecksController {
       console.log('Error deleting deck:', error)
       session.flash({ error: 'Erreur lors de la suppression du deck.' })
       return response.status(500).json({ success: false, message: 'Failed to delete the deck' })
-    }
-  }
-
-  public async storeFlashcard({ params, request, response, session }: HttpContext) {
-    try {
-      const deck = await Deck.findOrFail(params.id)
-      const { question, answer } = request.only(['question', 'answer'])
-
-      // Vérification que la question et la réponse sont renseignées
-      if (!question || !answer) {
-        session.flash({ error: 'La question et la réponse sont requises.' })
-        return response.status(400).json({ error: 'La question et la réponse sont requises.' })
-      }
-
-      const flashcard = await Flashcard.create({
-        deckId: deck.id,
-        question,
-        answer,
-      })
-
-      session.flash({ success: 'Carte créée avec succès !' })
-      return response.json({ success: true, flashcard })
-    } catch (error) {
-      console.log('Error creating flashcard:', error)
-      session.flash({ error: 'Erreur lors de la création de la carte.' })
-      return response.status(500).json({ error: 'Erreur lors de la création de la carte.' })
     }
   }
 }
