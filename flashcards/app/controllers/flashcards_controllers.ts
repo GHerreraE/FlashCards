@@ -46,9 +46,12 @@ export default class FlashcardsController {
       session.flash({ success: 'Carte créée avec succès !' })
       return response.redirect().toRoute('decks.show', { id: params.deckId })
     } catch (error) {
-      console.error('Error creating flashcard:', error)
       session.flash({ error: 'Erreur lors de la création de la carte.' })
       return response.redirect().toRoute('decks.show', { id: params.deckId })
     }
   }
+
+  public async destroy({}: HttpContext) {}
+  public async edit({}: HttpContext) {}
+  public async update({}: HttpContext) {}
 }

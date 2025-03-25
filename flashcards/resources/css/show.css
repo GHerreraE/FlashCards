@@ -14,7 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  justify-content: space-between; /* Ensures the footer is pushed to the bottom */
+  justify-content: space-between;
 }
 
 /* ✅ HEADER */
@@ -23,7 +23,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background: linear-gradient(90deg, #1a2980, #26d0ce); /* Header gradient */
+  background: linear-gradient(90deg, #1a2980, #26d0ce);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -74,13 +74,13 @@ header nav ul li a:hover::after {
   width: 100%;
 }
 
-/* ✅ Main content styles */
+/* ✅ Main content */
 main.container {
   padding: 20px;
-  margin-bottom: 60px; /* Add margin-bottom to avoid overlap with footer */
+  margin-bottom: 60px;
 }
 
-/* ✅ Form Styling */
+/* ✅ Deck Form */
 .deck-form {
   background: #fff;
   padding: 20px;
@@ -114,15 +114,14 @@ main.container {
   height: 80px;
 }
 
-/* Button Group */
+/* ✅ Button Styles */
 .button-group {
   display: flex;
-  justify-content: center; /* This will center the buttons */
+  justify-content: center;
   gap: 15px;
-  margin-top: 20px; /* Optional: increase the top margin for better spacing */
+  margin-top: 20px;
 }
 
-/* Apply Global Button Styles */
 .btn {
   background: linear-gradient(90deg, #ff9800, #e68900);
   color: #fff;
@@ -145,7 +144,6 @@ main.container {
   transform: scale(1.05);
 }
 
-/* Cancel Button */
 .cancel-button {
   background: #ccc;
   color: #333;
@@ -156,26 +154,175 @@ main.container {
   transform: scale(1.05);
 }
 
-/* ✅ Footer */
-footer {
-  background: #1a2980; /* Matching footer color */
+/* ✅ Flashcard List */
+.flashcard-list {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+  overflow-x: auto;
+}
+
+.flashcard-list h3 {
+  font-size: 1.6em;
+  color: #1a2980;
+  margin-bottom: 20px;
+}
+
+/* ✅ Tableau des flashcards */
+.flashcard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.flashcard-table th,
+.flashcard-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+.flashcard-table th {
+  background-color: #f7f9fc;
+  color: #1a2980;
+  font-weight: 600;
+}
+
+/* ✅ Largeur des colonnes */
+.flashcard-table td:nth-child(1) {
+  width: 30%;
+  font-weight: 600;
+  color: #26d0ce;
+}
+
+.flashcard-table td:nth-child(2) {
+  width: 50%;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.flashcard-table th:nth-child(3) {
+  text-align: center; /* ✅ Centré dans l'en-tête */
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.flashcard-table td:nth-child(3) {
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.flashcard-actions {
+  display: inline-flex; /* pour garder la taille du contenu */
+  gap: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.flashcard-actions .btn-edit {
+  background: #e68900;
   color: white;
+}
+
+.flashcard-actions .btn-edit:hover {
+  background: #ff9800;
+  transform: scale(1.05);
+}
+
+.flashcard-actions .btn-delete {
+  background: #e53935;
+  color: white;
+}
+
+.flashcard-actions .btn-delete:hover {
+  background: #c62828;
+  transform: scale(1.05);
+}
+
+.no-flashcards {
   text-align: center;
-  padding: 20px 0;
-  font-size: 1em;
-  margin-top: auto; /* Ensures the footer stays at the bottom */
+  font-style: italic;
+  color: #888;
+  padding: 15px;
 }
 
-footer .container {
-  max-width: 1200px;
-  margin: 0 auto;
+/* ✅ Tableau des decks */
+.deck-table-container {
+  margin-top: 40px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-footer p {
-  margin: 0;
+.deck-table-container h2 {
+  color: #1a2980;
+  margin-bottom: 20px;
+  font-size: 1.6em;
 }
 
-/* ✅ Responsive Design */
+.deck-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.deck-table th,
+.deck-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+.deck-table th {
+  background-color: #f7f9fc;
+  color: #1a2980;
+  font-weight: 600;
+}
+
+.deck-table tr:hover {
+  background-color: rgba(26, 41, 128, 0.05);
+}
+
+.deck-table td:nth-child(2) {
+  width: 60%;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.btn-view {
+  background: #26d0ce;
+  color: white;
+}
+
+.btn-edit {
+  background: #e68900;
+  color: white;
+}
+
+.btn-delete {
+  background: #e53935;
+  color: white;
+}
+
+.btn-view:hover {
+  background: #1a2980;
+}
+
+.btn-edit:hover {
+  background: #ff9800;
+}
+
+.btn-delete:hover {
+  background: #c62828;
+}
+
+/* ✅ Responsive */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -199,6 +346,40 @@ footer p {
 
   .flashcard-form,
   .flashcard-list {
-    margin-bottom: 20px; /* Reduce margin for smaller screens */
+    margin-bottom: 20px;
   }
+
+  .flashcard-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .flashcard-table td {
+    font-size: 0.95em;
+    word-wrap: break-word;
+  }
+
+  .flashcard-actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+}
+
+/* ✅ Footer */
+footer {
+  background: #1a2980;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 1em;
+  margin-top: auto;
+}
+
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer p {
+  margin: 0;
 }
