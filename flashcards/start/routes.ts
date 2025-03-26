@@ -29,10 +29,14 @@ router.put('/decks/:id', [DecksController, 'update']).as('decks.update') // Upda
 router.delete('/decks/:id', [DecksController, 'destroy']).as('decks.destroy') // Delete deck
 
 // Flashcard routes
+router
+  .get('/decks/:deckId/flashcards/create', [FlashcardsController, 'create'])
+  .as('flashcards.create')
 router.post('/decks/:deckId/flashcards', [FlashcardsController, 'store']).as('flashcards.store')
 router.delete('/flashcards/:id', [FlashcardsController, 'destroy']).as('flashcards.destroy')
 router.get('/flashcards/:id/edit', [FlashcardsController, 'edit']).as('flashcards.edit')
 router.put('/flashcards/:id', [FlashcardsController, 'update']).as('flashcards.update')
+router.get('/flashcards/:id/', [FlashcardsController, 'show']).as('flashcards.show')
 // Groupe de routes nécessitant l'authentification
 router
   .group(() => {
