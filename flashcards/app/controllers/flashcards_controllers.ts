@@ -51,7 +51,62 @@ export default class FlashcardsController {
     }
   }
 
-  public async destroy({}: HttpContext) {}
-  public async edit({}: HttpContext) {}
-  public async update({}: HttpContext) {}
+  public async destroy({ params, response, session }: HttpContext) {
+    // Utilisez params.id car votre route est définie avec /flashcards/:id
+    const flashcard = await Flashcard.find(params.id)
+    if (!flashcard) {
+      session.flash({ error: 'Flashcard non trouvée.' })
+      return response.status(404).json({ message: 'Flashcard non trouvée' })
+    }
+    try {
+      await flashcard.delete()
+      session.flash({ success: 'Carte supprimée avec succès !' })
+      return response.json({ success: true, message: 'Flashcard supprimée' })
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la flashcard:', error)
+      session.flash({ error: 'Erreur lors de la suppression de la carte.' })
+      return response
+        .status(500)
+        .json({ success: false, message: 'Échec de la suppression de la flashcard' })
+    }
+  }
+
+  public async edit({ params, view, session }: HttpContext) {
+    const flashcard = await Flashcard.findOrFail(params.id)
+    const deck = await Deck.findOrFail(flashcard.deckId)
+
+    return view.render('flashcards/edit', {
+      flashcard,
+      deck,
+      flash: session.flashMessages || {},
+    })
+  }
+
+  public async update({ params, request, response, session }: HttpContext) {
+    try {
+      const flashcard = await Flashcard.findOrFail(params.id)
+      const { question, answer } = request.only(['question', 'answer'])
+
+      if (!question?.trim() || !answer?.trim()) {
+        session.flash({ error: 'La question et la réponse sont requises.' })
+        return response.status(400).json({ error: 'Champs requis manquants.' })
+      }
+
+      if (question.length < 5 || answer.length < 1) {
+        session.flash({ error: 'La question doit contenir au moins 5 caractères.' })
+        return response.status(400).json({ error: 'Question trop courte ou réponse vide.' })
+      }
+
+      flashcard.question = question
+      flashcard.answer = answer
+      await flashcard.save()
+
+      session.flash({ success: 'Flashcard mise à jour avec succès !' })
+      return response.json({ success: true, flashcard })
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la flashcard :', error)
+      session.flash({ error: 'Erreur lors de la mise à jour de la carte.' })
+      return response.status(500).json({ error: 'Erreur interne du serveur.' })
+    }
+  }
 }
