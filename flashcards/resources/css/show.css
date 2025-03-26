@@ -74,27 +74,65 @@ header nav ul li a:hover::after {
   width: 100%;
 }
 
-/* ✅ Main content */
+/* ✅ Contenu principal */
 main.container {
   padding: 20px;
   margin-bottom: 60px;
 }
 
-/* ✅ Deck Form */
-.deck-form {
+/* ✅ Détails du deck */
+.deck-details {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.deck-details h1 {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+  color: #1a2980;
+}
+
+.deck-description {
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+/* ✅ Boutons d'actions du deck */
+.deck-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* ✅ Formulaire (deck / flashcard) */
+.deck-form,
+.flashcard-form {
   background: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 500px;
-  margin: 0 auto;
+  margin: 0 auto 40px auto;
 }
 
-.deck-form .form-group {
+.deck-form h2,
+.flashcard-form h2 {
   margin-bottom: 15px;
+  color: #1a2980;
 }
 
-.deck-form label {
+.deck-form .form-group,
+.flashcard-form .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.deck-form label,
+.flashcard-form label {
   font-weight: 500;
   color: #333;
   display: block;
@@ -102,7 +140,9 @@ main.container {
 }
 
 .deck-form input,
-.deck-form textarea {
+.deck-form textarea,
+.flashcard-form input,
+.flashcard-form textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -110,12 +150,14 @@ main.container {
   font-size: 1em;
 }
 
-.deck-form textarea {
+.deck-form textarea,
+.flashcard-form textarea {
   height: 80px;
 }
 
-/* ✅ Button Styles */
-.button-group {
+/* ✅ Styles des boutons */
+.button-group,
+.deck-actions {
   display: flex;
   justify-content: center;
   gap: 15px;
@@ -154,7 +196,19 @@ main.container {
   transform: scale(1.05);
 }
 
-/* ✅ Flashcard List */
+/* Nouveau bouton pour retourner à l'accueil utilisateur */
+.btn-home {
+  background: linear-gradient(90deg, #ff9800, #e68900);
+  color: #fff;
+  margin-top: 10px;
+}
+
+.btn-home:hover {
+  background: linear-gradient(90deg, #e68900, #ff9800);
+  transform: scale(1.05);
+}
+
+/* ✅ Liste des cartes */
 .flashcard-list {
   background: #fff;
   padding: 20px;
@@ -166,11 +220,11 @@ main.container {
 
 .flashcard-list h3 {
   font-size: 1.6em;
-  color: #1a2980;
   margin-bottom: 20px;
+  color: #1a2980;
 }
 
-/* ✅ Tableau des flashcards */
+/* ✅ Tableau des cartes */
 .flashcard-table {
   width: 100%;
   border-collapse: collapse;
@@ -191,7 +245,6 @@ main.container {
   font-weight: 600;
 }
 
-/* ✅ Largeur des colonnes */
 .flashcard-table td:nth-child(1) {
   width: 30%;
   font-weight: 600;
@@ -205,7 +258,7 @@ main.container {
 }
 
 .flashcard-table th:nth-child(3) {
-  text-align: center; /* ✅ Centré dans l'en-tête */
+  text-align: center;
   white-space: nowrap;
   vertical-align: middle;
 }
@@ -217,7 +270,7 @@ main.container {
 }
 
 .flashcard-actions {
-  display: inline-flex; /* pour garder la taille du contenu */
+  display: inline-flex;
   gap: 10px;
   flex-wrap: nowrap;
   justify-content: flex-end;
@@ -226,7 +279,7 @@ main.container {
 
 .flashcard-actions .btn-edit {
   background: #e68900;
-  color: white;
+  color: #fff;
 }
 
 .flashcard-actions .btn-edit:hover {
@@ -236,7 +289,7 @@ main.container {
 
 .flashcard-actions .btn-delete {
   background: #e53935;
-  color: white;
+  color: #fff;
 }
 
 .flashcard-actions .btn-delete:hover {
@@ -251,7 +304,7 @@ main.container {
   padding: 15px;
 }
 
-/* ✅ Tableau des decks */
+/* ✅ Tableau des decks (si utilisé ailleurs) */
 .deck-table-container {
   margin-top: 40px;
   background: #fff;
@@ -297,17 +350,17 @@ main.container {
 
 .btn-view {
   background: #26d0ce;
-  color: white;
+  color: #fff;
 }
 
 .btn-edit {
   background: #e68900;
-  color: white;
+  color: #fff;
 }
 
 .btn-delete {
   background: #e53935;
-  color: white;
+  color: #fff;
 }
 
 .btn-view:hover {
@@ -365,10 +418,10 @@ main.container {
   }
 }
 
-/* ✅ Footer */
+/* ✅ FOOTER */
 footer {
   background: #1a2980;
-  color: white;
+  color: #fff;
   text-align: center;
   padding: 20px 0;
   font-size: 1em;
