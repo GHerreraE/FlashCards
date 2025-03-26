@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,20 +9,20 @@
     <link rel="stylesheet" href="/resources/css/show.css" />
   </head>
   <body>
-    <!-- Header section (Include header partial) -->
+    <!-- En-tête -->
     @include('partials/HeaderPostLogin')
 
-    <!-- Main Content -->
+    <!-- Contenu principal -->
     <main class="container">
       @include('partials/flash_messages')
 
-      <!-- Deck Details -->
+      <!-- Détails du deck -->
       <div class="deck-details">
         <h1>
           Titre du deck : {{ deck.name }}
         </h1>
         <p class="deck-description">
-          Description du deck : {{ deck.description || 'No description available' }}
+          Description du deck : {{ deck.description || 'Aucune description disponible' }}
         </p>
 
         <!-- Boutons pour modifier et supprimer le deck -->
@@ -36,31 +36,35 @@
             Supprimer le deck
           </button>
         </div>
+        <!-- Bouton pour revenir à la page d'accueil utilisateur -->
+        <div class="homeuser-btn">
+          <a href="/homeuser" class="btn btn-home">Retour à l'accueil</a>
+        </div>
       </div>
 
-      <!-- Add Flashcard Form -->
+      <!-- Formulaire pour ajouter une carte -->
       <div class="flashcard-form deck-form">
         <h2>
-          Add a Flashcard
+          Ajouter une carte
         </h2>
         <form action="{{ route('flashcards.store', { deckId: deck.id }) }}" method="POST">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
           <div class="form-group">
-            <label for="question">Question</label>
+            <label for="question">Question :</label>
             <input type="text" name="question" id="question" required />
           </div>
           <div class="form-group">
-            <label for="answer">Answer</label>
+            <label for="answer">Réponse :</label>
             <input type="text" name="answer" id="answer" required />
           </div>
-          <button type="submit" class="btn">Add Flashcard</button>
+          <button type="submit" class="btn">Ajouter la carte</button>
         </form>
       </div>
 
-      <!-- Flashcards List -->
+      <!-- Liste des cartes -->
       <div class="flashcard-list">
         <h3>
-          Flashcards
+          Cartes
         </h3>
         <table class="flashcard-table">
           <thead>
@@ -107,12 +111,13 @@
           </tbody>
         </table>
       </div>
+
     </main>
 
-    <!-- Script pour gérer la suppression du deck via fetch -->
+    <!-- Script de gestion des suppressions -->
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        // Gestion de la suppression du deck
+        // Suppression du deck
         const deleteDeckButton = document.getElementById("delete-deck-button");
         if (deleteDeckButton) {
           deleteDeckButton.addEventListener("click", function() {
@@ -126,7 +131,6 @@
                 }
               }).then(response => response.json()).then(data => {
                 if (data.success) {
-                  // Redirigez vers la liste des decks, par exemple
                   window.location.href = "/decks";
                 } else {
                   alert(data.message || "Erreur lors de la suppression du deck.");
@@ -138,7 +142,7 @@
             }
           });
         }
-        // Gestion de la suppression des flashcards
+        // Suppression des cartes
         document.querySelectorAll(".delete-flashcard").forEach(function(button) {
           button.addEventListener("click", function() {
             const url = button.getAttribute("data-url");
@@ -151,7 +155,6 @@
                 }
               }).then(response => response.json()).then(data => {
                 if (data.success) {
-                  // Recharger la page pour mettre à jour la liste des flashcards
                   location.reload();
                 } else {
                   alert(data.message || "Erreur lors de la suppression de la carte.");
@@ -166,7 +169,7 @@
       });
     </script>
 
-    <!-- Footer section (Include footer partial) -->
+    <!-- Pied de page -->
     @include('partials/footer')
   </body>
 </html>
