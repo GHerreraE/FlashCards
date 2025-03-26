@@ -33,7 +33,6 @@ router.post('/decks/:deckId/flashcards', [FlashcardsController, 'store']).as('fl
 router.delete('/flashcards/:id', [FlashcardsController, 'destroy']).as('flashcards.destroy')
 router.get('/flashcards/:id/edit', [FlashcardsController, 'edit']).as('flashcards.edit')
 router.put('/flashcards/:id', [FlashcardsController, 'update']).as('flashcards.update')
-
 // Groupe de routes nécessitant l'authentification
 router
   .group(() => {
