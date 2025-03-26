@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      {{ deck.name }}
+      Flashcard - {{ deck.name }}
     </title>
     <link rel="stylesheet" href="/resources/css/show.css" />
   </head>
@@ -42,68 +42,43 @@
         </div>
       </div>
 
-      <!-- Formulaire pour ajouter une carte -->
-      <div class="flashcard-form deck-form">
-        <h2>
-          Ajouter une carte
-        </h2>
-        <form action="{{ route('flashcards.store', { deckId: deck.id }) }}" method="POST">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-          <div class="form-group">
-            <label for="question">Question :</label>
-            <input type="text" name="question" id="question" required />
-          </div>
-          <div class="form-group">
-            <label for="answer">Réponse :</label>
-            <input type="text" name="answer" id="answer" required />
-          </div>
-          <button type="submit" class="btn">Ajouter la carte</button>
-        </form>
-      </div>
-
+      <!-- Liste des cartes -->
       <!-- Liste des cartes -->
       <div class="flashcard-list">
-        <h3>
-          Cartes
-        </h3>
+        <div class="flashcard-list-header">
+          <h3>
+            Cartes
+          </h3>
+          <a href="{{ route('flashcards.create', { deckId: deck.id }) }}" class="btn btn-add">
+            Ajouter une nouvelle carte
+          </a>
+        </div>
         <table class="flashcard-table">
           <thead>
             <tr>
               <th>
-                Nom de la carte
+                Question
               </th>
               <th>
-                Description
-              </th>
-              <th>
-                Actions
+                Reponse
               </th>
             </tr>
           </thead>
           <tbody>
             @if(flashcards && flashcards.length > 0)
               @each(flashcard in flashcards)
-                <tr>
+                <tr onclick="window.location.href='{{ route('flashcards.show', { id: flashcard.id }) }}'">
                   <td>
                     {{ flashcard.question }}
                   </td>
                   <td>
                     {{ flashcard.answer }}
                   </td>
-                  <td class="flashcard-actions">
-                    <a href="{{ route('flashcards.edit', { id: flashcard.id }) }}" class="btn btn-edit">Modifier</a>
-                    <button
-                      class="btn btn-delete delete-flashcard"
-                      data-url="{{ route('flashcards.destroy', { id: flashcard.id }) }}"
-                    >
-                      Supprimer
-                    </button>
-                  </td>
                 </tr>
               @endeach
             @else
               <tr>
-                <td colspan="3" class="no-flashcards">
+                <td colspan="2" class="no-flashcards">
                   Aucune carte pour ce deck.
                 </td>
               </tr>
@@ -142,30 +117,6 @@
             }
           });
         }
-        // Suppression des cartes
-        document.querySelectorAll(".delete-flashcard").forEach(function(button) {
-          button.addEventListener("click", function() {
-            const url = button.getAttribute("data-url");
-            if (confirm("Voulez-vous vraiment supprimer cette carte ?")) {
-              fetch(url, {
-                method: "DELETE",
-                headers: {
-                  "Content-Type": "application/json",
-                  "X-CSRF-TOKEN": "{{ csrfToken }}"
-                }
-              }).then(response => response.json()).then(data => {
-                if (data.success) {
-                  location.reload();
-                } else {
-                  alert(data.message || "Erreur lors de la suppression de la carte.");
-                }
-              }).catch(error => {
-                console.error("Erreur : ", error);
-                alert("Erreur lors de la suppression de la carte.");
-              });
-            }
-          });
-        });
       });
     </script>
 

@@ -1,0 +1,205 @@
+/* ✅ Reset des styles pour une base propre */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ✅ Styles globaux */
+body {
+  background-color: #f0f2f5;
+  color: #333;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+
+/* ✅ HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: linear-gradient(90deg, #1a2980, #26d0ce);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header .logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+header .logo:hover {
+  transform: scale(1.1);
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.1em;
+  position: relative;
+  transition: color 0.3s;
+}
+
+header nav ul li a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
+
+header nav ul li a:hover {
+  color: #e0e0e0;
+}
+
+header nav ul li a:hover::after {
+  width: 100%;
+}
+
+/* ✅ Contenu principal */
+main.container {
+  padding: 20px;
+  margin-bottom: 60px;
+}
+
+/* ===============================
+       Styles pour le formulaire de flashcard
+  =============================== */
+.flashcard-form.deck-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 20px auto;
+  margin-top: 100px;
+}
+
+.flashcard-form h2 {
+  margin-bottom: 15px;
+  color: #1a2980;
+}
+
+.flashcard-form .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.flashcard-form label {
+  font-weight: 500;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.flashcard-form input[type='text'] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+/* ===============================
+       Styles pour le groupe de boutons
+  =============================== */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* ===============================
+       Styles des boutons
+  =============================== */
+.btn {
+  background: linear-gradient(90deg, #ff9800, #e68900);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.3s;
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, #e68900, #ff9800);
+  transform: scale(1.05);
+}
+
+/* Style spécifique pour le bouton annuler */
+.cancel-button {
+  background: #ccc;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background: #bbb;
+  transform: scale(1.05);
+}
+
+/* ✅ FOOTER */
+footer {
+  background: #1a2980;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 1em;
+  margin-top: auto;
+}
+
+footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* ✅ Responsive */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
+  }
+  nav {
+    flex-direction: column;
+  }
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .flashcard-form.deck-form {
+    max-width: 90%;
+    margin: 20px auto;
+  }
+}
