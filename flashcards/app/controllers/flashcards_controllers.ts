@@ -23,6 +23,24 @@ export default class FlashcardsController {
       return response.redirect('/decks')
     }
   }
+  public async show({ params, view, session, response }: HttpContext) {
+    try {
+      // Récupère la flashcard via son identifiant
+      const flashcard = await Flashcard.findOrFail(params.id)
+      // Récupère le deck associé à la flashcard (pour fournir un contexte si besoin)
+      const deck = await Deck.findOrFail(flashcard.deckId)
+
+      return view.render('flashcards/show', {
+        flashcard,
+        deck,
+        flash: session.flashMessages || {},
+      })
+    } catch (error) {
+      console.error("Erreur lors de l'affichage de la carte :", error)
+      session.flash({ error: 'Carte non trouvée ou erreur de chargement.' })
+      return response.redirect('/decks')
+    }
+  }
 
   /**
    * Crée une flashcard pour un deck.
@@ -107,6 +125,19 @@ export default class FlashcardsController {
       console.error('Erreur lors de la mise à jour de la flashcard :', error)
       session.flash({ error: 'Erreur lors de la mise à jour de la carte.' })
       return response.status(500).json({ error: 'Erreur interne du serveur.' })
+    }
+  }
+  public async create({ params, view, session, response }: HttpContext) {
+    try {
+      const deck = await Deck.findOrFail(params.deckId)
+      return view.render('flashcards/create', {
+        deck,
+        flash: session.flashMessages || {},
+      })
+    } catch (error) {
+      console.error("Erreur lors de l'affichage du formulaire de création de carte:", error)
+      session.flash({ error: 'Deck introuvable.' })
+      return response.redirect('/decks')
     }
   }
 }
