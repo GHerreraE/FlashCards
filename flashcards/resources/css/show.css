@@ -207,6 +207,10 @@ main.container {
   background: linear-gradient(90deg, #e68900, #ff9800);
   transform: scale(1.05);
 }
+/* Ajout d'un curseur pointeur sur les lignes de la table flashcard */
+.flashcard-table tr {
+  cursor: pointer;
+}
 
 /* ✅ Liste des cartes */
 .flashcard-list {
@@ -435,4 +439,10 @@ footer .container {
 
 footer p {
   margin: 0;
+}
+.flashcard-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }

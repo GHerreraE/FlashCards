@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Flashcard - {{ flashcard.question }}
+    </title>
+    <link rel="stylesheet" href="/resources/css/show_carte.css" />
+  </head>
+  <body>
+    <!-- En-tête -->
+    @include('partials/HeaderPostLogin')
+
+    <!-- Contenu principal -->
+    <main class="container">
+      @include('partials/flash_messages')
+
+      <!-- Flashcard avec effet flip -->
+      <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+          <!-- Face avant (question) -->
+          <div class="flashcard-side flashcard-front">
+            <p>
+              {{ flashcard.question }}
+            </p>
+          </div>
+          <!-- Face arrière (réponse) -->
+          <div class="flashcard-side flashcard-back">
+            <p>
+              {{ flashcard.answer }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boutons d'actions -->
+      <div class="card-actions">
+        <a href="{{ route('flashcards.edit', { id: flashcard.id }) }}" class="btn">
+          Modifier la carte
+        </a>
+        <button
+          class="btn btn-delete"
+          id="delete-flashcard-button"
+          data-url="{{ route('flashcards.destroy', { id: flashcard.id }) }}"
+        >
+          Supprimer la carte
+        </button>
+        <a href="{{ route('decks.show', { id: deck.id }) }}" class="btn btn-home">
+          Retour au deck
+        </a>
+      </div>
+    </main>
+
+    <!-- Script pour gérer le flip et la suppression -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Gérer le flip de la flashcard au clic
+        const flashcard = document.getElementById("flashcard");
+        flashcard.addEventListener("click", function() {
+          flashcard.classList.toggle("flipped");
+        });
+        // Gestion de la suppression de la flashcard
+        const deleteButton = document.getElementById("delete-flashcard-button");
+        if (deleteButton) {
+          deleteButton.addEventListener("click", function(e) {
+            // Empêche l'activation du flip lors du clic sur le bouton
+            e.stopPropagation();
+            const url = deleteButton.getAttribute("data-url");
+            if (confirm("Voulez-vous vraiment supprimer cette carte ?")) {
+              fetch(url, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRF-TOKEN": "{{ csrfToken }}"
+                }
+              }).then(response => response.json()).then(data => {
+                if (data.success) {
+                  window.location.href = "{{ route('decks.show', { id: deck.id }) }}";
+                } else {
+                  alert(data.message || "Erreur lors de la suppression de la carte.");
+                }
+              }).catch(error => {
+                console.error("Erreur : ", error);
+                alert("Erreur lors de la suppression de la carte.");
+              });
+            }
+          });
+        }
+      });
+    </script>
+
+    @include('partials/footer')
+  </body>
+</html>
