@@ -50,22 +50,46 @@ export default class FlashcardsController {
       const { question, answer } = request.only(['question', 'answer'])
       const deck = await Deck.findOrFail(params.deckId)
 
-      if (!question?.trim() || !answer?.trim()) {
+      // Supprime les espaces en début/fin
+      const trimmedQuestion = question.trim()
+      const trimmedAnswer = answer.trim()
+
+      // Vérification des champs obligatoires
+      if (!trimmedQuestion || !trimmedAnswer) {
         session.flash({ error: 'La question et la réponse sont requises.' })
-        return response.redirect().toRoute('decks.show', { id: params.deckId })
+        return response.redirect().toRoute('flashcards.create', { deckId: deck.id })
       }
 
+      // Vérification de la longueur de la question (au moins 10 caractères)
+      if (trimmedQuestion.length < 10) {
+        session.flash({ error: 'La question doit contenir au moins 10 caractères.' })
+        return response.redirect().toRoute('flashcards.create', { deckId: deck.id })
+      }
+
+      // Vérifie si une flashcard avec la même question existe déjà dans le deck
+      const existingCard = await Flashcard.query()
+        .where('deckId', deck.id)
+        .andWhere('question', trimmedQuestion)
+        .first()
+
+      if (existingCard) {
+        session.flash({ error: 'Cette question existe déjà.' })
+        return response.redirect().toRoute('decks.show', { id: deck.id })
+      }
+
+      // Création de la flashcard
       await Flashcard.create({
-        question,
-        answer,
+        question: trimmedQuestion,
+        answer: trimmedAnswer,
         deckId: deck.id,
       })
 
       session.flash({ success: 'Carte créée avec succès !' })
-      return response.redirect().toRoute('decks.show', { id: params.deckId })
+      return response.redirect().toRoute('decks.show', { id: deck.id })
     } catch (error) {
+      console.error('Erreur lors de la création de la carte :', error)
       session.flash({ error: 'Erreur lors de la création de la carte.' })
-      return response.redirect().toRoute('decks.show', { id: params.deckId })
+      return response.redirect().toRoute('flashcards.create', { deckId: params.deckId })
     }
   }
 
