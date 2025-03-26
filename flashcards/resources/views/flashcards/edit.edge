@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Éditer la carte
+    </title>
+    <link rel="stylesheet" href="/resources/css/edit.css" />
+  </head>
+  <body>
+
+    @include('partials/HeaderPostLogin')
+
+    <!-- Main Content -->
+    <main class="container">
+      <h1>
+        Éditez la carte :
+      </h1>
+
+      <div class="deck-form">
+        <form id="edit-flashcard-form">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          <input type="hidden" name="flashcard_id" value="{{ flashcard.id }}" />
+          <input type="hidden" name="deck_id" value="{{ deck.id }}" />
+
+          @include('partials/flash_messages')
+
+          <div class="form-group">
+            <label for="question">Question :</label>
+            <input type="text" name="question" id="question" value="{{ flashcard.question }}" required />
+          </div>
+
+          <div class="form-group">
+            <label for="answer">Réponse :</label>
+            <textarea name="answer" id="answer" required>{{ flashcard.answer }}</textarea>
+          </div>
+
+          <!-- Button Group -->
+          <div class="button-group">
+            <button type="submit" class="btn">Confirmer</button>
+            <a href="/decks/{{ deck.id }}" class="btn cancel-button">Annuler</a>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    @include('partials/footer')
+
+    <!-- JavaScript to handle form submission -->
+    <script>
+      document.getElementById("edit-flashcard-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const flashcardId = document.querySelector('[name="flashcard_id"]').value;
+        const deckId = document.querySelector('[name="deck_id"]').value;
+        const question = document.querySelector('[name="question"]').value;
+        const answer = document.querySelector('[name="answer"]').value;
+        const csrfToken = document.querySelector('[name="_csrf"]').value;
+        const data = {
+          question: question,
+          answer: answer,
+          _csrf: csrfToken,
+          _method: "PUT"
+        };
+        fetch(`/flashcards/${flashcardId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken
+          },
+          body: JSON.stringify(data)
+        }).then(response => {
+          if (!response.ok) {
+            throw new Error(`Erreur: ${response.status}`);
+          }
+          return response.json();
+        }).then(data => {
+          if (data.success) {
+            window.location.href = `/decks/${deckId}`;
+          } else {
+            throw new Error("Échec de la mise à jour de la carte.");
+          }
+        }).catch(error => {
+          console.error("Erreur :", error);
+          alert("Erreur lors de la mise à jour : " + error.message);
+        });
+      });
+    </script>
+
+  </body>
+</html>
