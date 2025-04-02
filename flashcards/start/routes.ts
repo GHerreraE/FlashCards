@@ -15,31 +15,32 @@ router.on('/').redirect('home')
 router.on('/home').render('home').as('home')
 router.on('/apropos').render('apropos').as('apropos')
 router.on('/contact').render('contact').as('contact')
-router.get('/homeuser', [DecksController, 'index'])
 
-// Deck routes
-router.get('/decks', [DecksController, 'index'])
-router.get('/decks/create', [DecksController, 'create'])
-router.post('/decks', [DecksController, 'store']).as('decks.store')
-router.get('/decks/:id', [DecksController, 'show']).as('decks.show') // Show deck with options to edit, delete, and add flashcards
-router.get('/decks/:id/edit', [DecksController, 'edit']).as('decks.edit') // Show the edit page
-router.put('/decks/:id', [DecksController, 'update']).as('decks.update') // Update deck
-
-// Delete deck route
-router.delete('/decks/:id', [DecksController, 'destroy']).as('decks.destroy') // Delete deck
-
-// Flashcard routes
-router
-  .get('/decks/:deckId/flashcards/create', [FlashcardsController, 'create'])
-  .as('flashcards.create')
-router.post('/decks/:deckId/flashcards', [FlashcardsController, 'store']).as('flashcards.store')
-router.delete('/flashcards/:id', [FlashcardsController, 'destroy']).as('flashcards.destroy')
-router.get('/flashcards/:id/edit', [FlashcardsController, 'edit']).as('flashcards.edit')
-router.put('/flashcards/:id', [FlashcardsController, 'update']).as('flashcards.update')
-router.get('/flashcards/:id/', [FlashcardsController, 'show']).as('flashcards.show')
-// Groupe de routes nécessitant l'authentification
+// Groupe de routes protégées (l'utilisateur doit être authentifié)
 router
   .group(() => {
+    router.get('/homeuser', [DecksController, 'index'])
+
+    // Deck routes
+    router.get('/decks', [DecksController, 'index'])
+    router.get('/decks/create', [DecksController, 'create'])
+    router.post('/decks', [DecksController, 'store']).as('decks.store')
+    router.get('/decks/:id', [DecksController, 'show']).as('decks.show')
+    router.get('/decks/:id/edit', [DecksController, 'edit']).as('decks.edit')
+    router.put('/decks/:id', [DecksController, 'update']).as('decks.update')
+    router.delete('/decks/:id', [DecksController, 'destroy']).as('decks.destroy')
+
+    // Flashcard routes
+    router
+      .get('/decks/:deckId/flashcards/create', [FlashcardsController, 'create'])
+      .as('flashcards.create')
+    router.post('/decks/:deckId/flashcards', [FlashcardsController, 'store']).as('flashcards.store')
+    router.delete('/flashcards/:id', [FlashcardsController, 'destroy']).as('flashcards.destroy')
+    router.get('/flashcards/:id/edit', [FlashcardsController, 'edit']).as('flashcards.edit')
+    router.put('/flashcards/:id', [FlashcardsController, 'update']).as('flashcards.update')
+    router.get('/flashcards/:id/', [FlashcardsController, 'show']).as('flashcards.show')
+
+    // Route existante (si nécessaire)
     router.post('/create-deck', 'DecksController.createDeck').as('createDeck')
   })
   .middleware([() => new AuthMiddleware()])
