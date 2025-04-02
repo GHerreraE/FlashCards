@@ -15,11 +15,8 @@ export default class Deck extends BaseModel {
   @column()
   declare description: string // Add description for the deck (optional)
 
-  @column()
-  declare userId: number
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
 
   @hasMany(() => Flashcard)
   declare flashcards: HasMany<typeof Flashcard> // Relationship with Flashcards

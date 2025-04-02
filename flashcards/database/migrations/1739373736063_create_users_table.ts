@@ -8,8 +8,6 @@ export default class extends BaseSchema {
       table.increments('id').notNullable()
       table.string('username').notNullable().unique()
       table.string('password').notNullable()
-      table.timestamp('created_at', { useTz: true }).defaultTo(this.now()) // Add created_at column
-      table.timestamp('updated_at', { useTz: true }).nullable() // Add updated_at column
     })
   }
 
