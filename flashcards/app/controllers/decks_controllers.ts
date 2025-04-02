@@ -1,126 +1,71 @@
+// app/Controllers/Http/DecksController.ts
+import Deck from '#models/decks' // Import the Deck model
+import Flashcard from '#models/flashcards' // Import the Flashcard model
 import type { HttpContext } from '@adonisjs/core/http'
-import Deck from '#models/decks'
 
 export default class DecksController {
-  /**
-   * Affiche tous les decks.
-   */
+  // Fetch all decks
   public async index({ view, session }: HttpContext) {
-    try {
-      // Vous pouvez également filtrer par utilisateur si besoin (ex: auth.user.id)
-      const decks = await Deck.all()
-      console.log('Decks récupérés :', decks)
-      return view.render('homeuser', { decks, flash: session.flashMessages || {} })
-    } catch (error) {
-      console.error('Erreur lors de la récupération des decks :', error)
-      session.flash({ error: 'Erreur lors du chargement des decks.' })
-      return view.render('homeuser', { decks: [], flash: session.flashMessages || {} })
-    }
+    // Fetch all decks (no flashcards preloaded)
+    const decks = await Deck.all()
+
+    // Pass the decks to the view
+    return view.render('homeuser', { decks, flash: session.flashMessages || {} })
   }
 
-  /**
-   * Affiche le formulaire de création d'un deck.
-   */
+  // Show the form to create a new deck or handle it
   public async create({ view, session }: HttpContext) {
     return view.render('decks/create', { flash: session.flashMessages || {} })
   }
 
-  /**
-   * Affiche un deck avec ses flashcards associées.
-   */
   public async show({ params, response, view, session }: HttpContext) {
     try {
-      // Récupération du deck avec le préchargement de la relation "flashcards"
       const deck = await Deck.query().where('id', params.id).preload('flashcards').firstOrFail()
+      const flashcards = await Flashcard.query().where('deck_id', deck.id) // Get its flashcards
 
-      return view.render('decks/show', {
-        deck,
-        flash: session.flashMessages || {},
-      })
+      return view.render('decks/show', { deck, flashcards, flash: session.flashMessages || {} })
     } catch (error) {
-      console.error('Deck non trouvé ou erreur lors du chargement :', error)
-      session.flash({ error: 'Deck non trouvé.' })
       return response.status(404).json({ message: 'Deck not found' })
     }
   }
 
-  /**
-   * Enregistre un nouveau deck.
-   */
-  public async store({ request, response, session, auth }: HttpContext) {
-    try {
-      let { name, description } = request.only(['name', 'description'])
+  public async store({ request, response, session }: HttpContext) {
+    const { name, description } = request.only(['name', 'description'])
 
-      // Nettoyage des entrées
-      name = name?.trim()
-      description = description?.trim()
+    // Si la description est null ou vide, on redirige directement
+    if (!description || description.length < 10) {
+      session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
+      return response.redirect('/homeuser')
+    }
 
-      // Vérification des champs obligatoires
-      if (!name || !description) {
-        session.flash({ error: 'Le nom et la description sont requis.' })
-        return response.redirect().back()
-      }
+    // Check if a deck with the same name already exists
+    const existingDeck = await Deck.query().where('name', name).first()
 
-      if (description.length < 10) {
-        session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
-        return response.redirect().back()
-      }
-
-      // Vérification de l'unicité du nom du deck
-      const existingDeck = await Deck.query().where('name', name).first()
-      if (existingDeck) {
-        session.flash({ error: 'Un deck avec ce nom existe déjà.' })
-        return response.redirect().back()
-      }
-
-      // Récupération de l'utilisateur authentifié pour associer son id au deck
-      const user = auth.user
-      if (!user) {
-        session.flash({ error: 'Utilisateur non authentifié.' })
-        return response.redirect().back()
-      }
-
-      // Création du deck en utilisant la correspondance des noms de colonnes (userId en modèle => user_id en BDD)
-      await Deck.create({
-        name,
-        description,
-        userId: user.id,
-      })
-
-      session.flash({ success: 'Deck créé avec succès !' })
+    if (existingDeck) {
+      session.flash({ error: 'Un deck avec ce nom existe déjà.' })
       return response.redirect('/decks')
-    } catch (error) {
-      console.error('Erreur lors de la création du deck :', error)
-      session.flash({ error: 'Erreur lors de la création du deck.' })
-      return response.redirect().back()
     }
+
+    // Create the new deck if it passes validation
+    await Deck.create({
+      name,
+      description,
+    })
+
+    console.log('New Deck Created:', { name, description })
+    session.flash({ success: 'Deck créé avec succès !' })
+    return response.redirect('/decks')
   }
 
-  /**
-   * Affiche le formulaire d'édition d'un deck.
-   */
+  // Show the form to edit a deck's title and description
   public async edit({ params, view, session }: HttpContext) {
-    try {
-      const deck = await Deck.findOrFail(params.id)
-      return view.render('decks/edit', { deck, flash: session.flashMessages || {} })
-    } catch (error) {
-      console.error("Deck non trouvé pour l'édition :", error)
-      session.flash({ error: 'Deck non trouvé.' })
-      return view.render('errors/404')
-    }
+    const deck = await Deck.findOrFail(params.id)
+    return view.render('decks/edit', { deck, flash: session.flashMessages || {} })
   }
-
-  /**
-   * Met à jour les informations d'un deck.
-   */
   public async update({ params, request, response, session }: HttpContext) {
     try {
       const deck = await Deck.findOrFail(params.id)
-      let { name, description } = request.only(['name', 'description'])
-
-      // Nettoyage des entrées
-      name = name?.trim()
-      description = description?.trim()
+      const { name, description } = request.only(['name', 'description'])
 
       if (!name || !description) {
         session.flash({ error: 'Le nom et la description sont requis.' })
@@ -141,23 +86,24 @@ export default class DecksController {
       session.flash({ success: 'Deck mis à jour avec succès !' })
       return response.json({ success: true, deck })
     } catch (error) {
-      console.error('Erreur lors de la mise à jour du deck :', error)
+      console.log('Error updating deck:', error)
       session.flash({ error: 'Erreur lors de la mise à jour du deck.' })
       return response.status(500).json({ error: 'Erreur lors de la mise à jour du deck.' })
     }
   }
 
-  /**
-   * Supprime un deck.
-   */
   public async destroy({ params, response, session }: HttpContext) {
+    const deck = await Deck.find(params.id)
+    if (!deck) {
+      session.flash({ error: 'Deck not found.' })
+      return response.status(404).json({ message: 'Deck not found' })
+    }
     try {
-      const deck = await Deck.findOrFail(params.id)
       await deck.delete()
       session.flash({ success: 'Deck supprimé avec succès !' })
       return response.json({ success: true, message: 'Deck deleted' })
     } catch (error) {
-      console.error('Erreur lors de la suppression du deck :', error)
+      console.log('Error deleting deck:', error)
       session.flash({ error: 'Erreur lors de la suppression du deck.' })
       return response.status(500).json({ success: false, message: 'Failed to delete the deck' })
     }
