@@ -36,9 +36,6 @@ Start-Sleep -Milliseconds 200
 # Ouvre http://localhost:3333 dans Chrome
 Start-Process $chromePath "http://localhost:3333"
 
-# Ouvre le projet GitHub
-Start-Process "https://github.com/users/GHerreraE/projects/3/views/1"
-
 # Ferme cette console PowerShell (celle qui exécute le script)
 $myProcess = Get-Process -Id $PID
 $myProcess.CloseMainWindow()
