@@ -1,6 +1,6 @@
+import type { HttpContext } from '@adonisjs/core/http'
 import Flashcard from '#models/flashcards'
 import Deck from '#models/decks'
-import type { HttpContext } from '@adonisjs/core/http'
 
 export default class FlashcardsController {
   /**
@@ -9,8 +9,10 @@ export default class FlashcardsController {
   public async index({ params, view, session, response }: HttpContext) {
     try {
       const deckId = params.id
+      // Récupération du deck avec ses flashcards via la relation définie dans le modèle
       const deck = await Deck.findOrFail(deckId)
-      const flashcards = await Flashcard.query().where('deck_id', deckId)
+      await deck.load('flashcards')
+      const flashcards = deck.flashcards
 
       return view.render('decks/show', {
         deck,
@@ -18,26 +20,46 @@ export default class FlashcardsController {
         flash: session.flashMessages || {},
       })
     } catch (error) {
-      console.error('Erreur lors de la récupération des cartes:', error)
+      console.error('Erreur lors de la récupération des cartes :', error)
       session.flash({ error: 'Deck introuvable ou erreur de chargement.' })
       return response.redirect('/decks')
     }
   }
+
+  /**
+   * Affiche une flashcard et son deck associé.
+   */
   public async show({ params, view, session, response }: HttpContext) {
     try {
-      // Récupère la flashcard via son identifiant
+      // Récupération de la flashcard puis chargement de sa relation avec le deck
       const flashcard = await Flashcard.findOrFail(params.id)
-      // Récupère le deck associé à la flashcard (pour fournir un contexte si besoin)
-      const deck = await Deck.findOrFail(flashcard.deckId)
+      await flashcard.load('deck')
 
       return view.render('flashcards/show', {
         flashcard,
-        deck,
+        deck: flashcard.deck,
         flash: session.flashMessages || {},
       })
     } catch (error) {
       console.error("Erreur lors de l'affichage de la carte :", error)
       session.flash({ error: 'Carte non trouvée ou erreur de chargement.' })
+      return response.redirect('/decks')
+    }
+  }
+
+  /**
+   * Affiche le formulaire de création d'une flashcard.
+   */
+  public async create({ params, view, session, response }: HttpContext) {
+    try {
+      const deck = await Deck.findOrFail(params.deckId)
+      return view.render('flashcards/create', {
+        deck,
+        flash: session.flashMessages || {},
+      })
+    } catch (error) {
+      console.error("Erreur lors de l'affichage du formulaire de création de carte :", error)
+      session.flash({ error: 'Deck introuvable.' })
       return response.redirect('/decks')
     }
   }
@@ -50,7 +72,7 @@ export default class FlashcardsController {
       const { question, answer } = request.only(['question', 'answer'])
       const deck = await Deck.findOrFail(params.deckId)
 
-      // Supprime les espaces en début/fin
+      // Nettoyage des espaces en début/fin
       const trimmedQuestion = question.trim()
       const trimmedAnswer = answer.trim()
 
@@ -60,16 +82,17 @@ export default class FlashcardsController {
         return response.redirect().toRoute('flashcards.create', { deckId: deck.id })
       }
 
-      // Vérification de la longueur de la question (au moins 10 caractères)
+      // Vérification de la longueur minimale de la question (10 caractères)
       if (trimmedQuestion.length < 10) {
         session.flash({ error: 'La question doit contenir au moins 10 caractères.' })
         return response.redirect().toRoute('flashcards.create', { deckId: deck.id })
       }
 
-      // Vérifie si une flashcard avec la même question existe déjà dans le deck
-      const existingCard = await Flashcard.query()
-        .where('deckId', deck.id)
-        .andWhere('question', trimmedQuestion)
+      // Vérifie si une flashcard avec la même question existe déjà dans ce deck
+      const existingCard = await deck
+        .related('flashcards')
+        .query()
+        .where('question', trimmedQuestion)
         .first()
 
       if (existingCard) {
@@ -77,11 +100,10 @@ export default class FlashcardsController {
         return response.redirect().toRoute('decks.show', { id: deck.id })
       }
 
-      // Création de la flashcard
-      await Flashcard.create({
+      // Création de la flashcard via la relation 'flashcards' du deck
+      await deck.related('flashcards').create({
         question: trimmedQuestion,
         answer: trimmedAnswer,
-        deckId: deck.id,
       })
 
       session.flash({ success: 'Carte créée avec succès !' })
@@ -93,54 +115,52 @@ export default class FlashcardsController {
     }
   }
 
-  public async destroy({ params, response, session }: HttpContext) {
-    // Utilisez params.id car votre route est définie avec /flashcards/:id
-    const flashcard = await Flashcard.find(params.id)
-    if (!flashcard) {
-      session.flash({ error: 'Flashcard non trouvée.' })
-      return response.status(404).json({ message: 'Flashcard non trouvée' })
-    }
-    try {
-      await flashcard.delete()
-      session.flash({ success: 'Carte supprimée avec succès !' })
-      return response.json({ success: true, message: 'Flashcard supprimée' })
-    } catch (error) {
-      console.error('Erreur lors de la suppression de la flashcard:', error)
-      session.flash({ error: 'Erreur lors de la suppression de la carte.' })
-      return response
-        .status(500)
-        .json({ success: false, message: 'Échec de la suppression de la flashcard' })
-    }
-  }
-
+  /**
+   * Affiche le formulaire d'édition d'une flashcard.
+   */
   public async edit({ params, view, session }: HttpContext) {
-    const flashcard = await Flashcard.findOrFail(params.id)
-    const deck = await Deck.findOrFail(flashcard.deckId)
+    try {
+      const flashcard = await Flashcard.findOrFail(params.id)
+      // Chargement de la relation pour récupérer le deck associé
+      await flashcard.load('deck')
 
-    return view.render('flashcards/edit', {
-      flashcard,
-      deck,
-      flash: session.flashMessages || {},
-    })
+      return view.render('flashcards/edit', {
+        flashcard,
+        deck: flashcard.deck,
+        flash: session.flashMessages || {},
+      })
+    } catch (error) {
+      console.error("Erreur lors de l'affichage du formulaire d'édition :", error)
+      session.flash({ error: 'Flashcard ou deck introuvable.' })
+      return view.render('errors/404')
+    }
   }
 
+  /**
+   * Met à jour une flashcard existante.
+   */
   public async update({ params, request, response, session }: HttpContext) {
     try {
       const flashcard = await Flashcard.findOrFail(params.id)
       const { question, answer } = request.only(['question', 'answer'])
 
-      if (!question?.trim() || !answer?.trim()) {
+      // Nettoyage des espaces
+      const trimmedQuestion = question.trim()
+      const trimmedAnswer = answer.trim()
+
+      if (!trimmedQuestion || !trimmedAnswer) {
         session.flash({ error: 'La question et la réponse sont requises.' })
         return response.status(400).json({ error: 'Champs requis manquants.' })
       }
 
-      if (question.length < 5 || answer.length < 1) {
-        session.flash({ error: 'La question doit contenir au moins 5 caractères.' })
-        return response.status(400).json({ error: 'Question trop courte ou réponse vide.' })
+      // Vérification de la longueur minimale de la question (10 caractères)
+      if (trimmedQuestion.length < 10) {
+        session.flash({ error: 'La question doit contenir au moins 10 caractères.' })
+        return response.status(400).json({ error: 'Question trop courte.' })
       }
 
-      flashcard.question = question
-      flashcard.answer = answer
+      flashcard.question = trimmedQuestion
+      flashcard.answer = trimmedAnswer
       await flashcard.save()
 
       session.flash({ success: 'Flashcard mise à jour avec succès !' })
@@ -151,17 +171,23 @@ export default class FlashcardsController {
       return response.status(500).json({ error: 'Erreur interne du serveur.' })
     }
   }
-  public async create({ params, view, session, response }: HttpContext) {
+
+  /**
+   * Supprime une flashcard.
+   */
+  public async destroy({ params, response, session }: HttpContext) {
     try {
-      const deck = await Deck.findOrFail(params.deckId)
-      return view.render('flashcards/create', {
-        deck,
-        flash: session.flashMessages || {},
-      })
+      const flashcard = await Flashcard.findOrFail(params.id)
+      await flashcard.delete()
+
+      session.flash({ success: 'Carte supprimée avec succès !' })
+      return response.json({ success: true, message: 'Flashcard supprimée' })
     } catch (error) {
-      console.error("Erreur lors de l'affichage du formulaire de création de carte:", error)
-      session.flash({ error: 'Deck introuvable.' })
-      return response.redirect('/decks')
+      console.error('Erreur lors de la suppression de la flashcard :', error)
+      session.flash({ error: 'Erreur lors de la suppression de la carte.' })
+      return response
+        .status(500)
+        .json({ success: false, message: 'Échec de la suppression de la flashcard' })
     }
   }
 }
