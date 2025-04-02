@@ -28,16 +28,20 @@
           <div class="form-group">
             <label for="name">Question :</label>
             <input type="text" name="name" id="name" required />
+            <p class="error-message" id="name-error">
+            </p>
           </div>
 
           <div class="form-group">
             <label for="description">Réponse :</label>
             <textarea name="description" id="description"></textarea>
+            <p class="error-message" id="description-error">
+            </p>
           </div>
 
           <!-- Button Group -->
           <div class="button-group">
-            <button type="submit" class="btn">Ajouter</button>
+            <button type="submit" class="btn">Ajouter deck</button>
             <a href="/homeuser" class="btn cancel-button">Canceler</a>
           </div>
         </form>
@@ -45,6 +49,27 @@
     </main>
 
     @include('partials/footer')
+
+    <script>
+      document.querySelector("form").addEventListener("submit", async event => {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: formData
+        });
+        if (!response.ok) {
+          const {
+            errors
+          } = await response.json();
+          document.getElementById("name-error").textContent = errors.name || "";
+          document.getElementById("description-error").textContent = errors.description || "";
+        } else {
+          window.location.href = "/decks";
+        }
+      });
+    </script>
 
   </body>
 </html>
