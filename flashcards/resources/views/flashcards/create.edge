@@ -23,10 +23,14 @@
         <div class="form-group">
           <label for="question">Question :</label>
           <input type="text" name="question" id="question" required />
+          <p class="error-message" id="question-error">
+          </p>
         </div>
         <div class="form-group">
           <label for="answer">Réponse :</label>
           <input type="text" name="answer" id="answer" required />
+          <p class="error-message" id="answer-error">
+          </p>
         </div>
         <div class="button-group">
           <button type="submit" class="btn">Ajouter la carte</button>
@@ -41,5 +45,25 @@
       </form>
     </div>
     @include('partials/footer')
+    <script>
+      document.querySelector("form").addEventListener("submit", async event => {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: formData
+        });
+        if (!response.ok) {
+          const {
+            errors
+          } = await response.json();
+          document.getElementById("question-error").textContent = errors.question || "";
+          document.getElementById("answer-error").textContent = errors.answer || "";
+        } else {
+          window.location.href = form.action.replace("/store", "");
+        }
+      });
+    </script>
   </body>
 </html>
