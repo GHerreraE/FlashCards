@@ -31,23 +31,28 @@ export default class DecksController {
   public async store({ request, response, session }: HttpContext) {
     const { name, description } = request.only(['name', 'description'])
 
-    // Vérifier le champ "Réponse" (description)
+    // Vérifier la description
     if (!description || description.length < 10) {
-      session.flash({ error_response: 'La description doit contenir au moins 10 caractères.' })
+      session.flash({
+        error_response: 'La description doit contenir au moins 10 caractères.',
+      })
+      session.flashAll() // Flash toutes les données du formulaire
       return response.redirect('back')
     }
 
-    // Vérifier le champ "Question" (name)
+    // Vérifier si un deck avec le même nom existe déjà
     const existingDeck = await Deck.query().where('name', name).first()
     if (existingDeck) {
-      session.flash({ error_question: 'Une deck avec ce nom existe déjà.' })
+      session.flash({
+        error_question: 'Un deck avec ce nom existe déjà.',
+      })
+      session.flashAll() // Flash toutes les données du formulaire
       return response.redirect('back')
     }
 
-    // Création du deck si tout est en ordre
+    // Création du deck
     await Deck.create({ name, description })
 
-    console.log('Nouveau deck créé:', { name, description })
     session.flash({ success: 'Deck créé avec succès !' })
     return response.redirect('/decks')
   }
