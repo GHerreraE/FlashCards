@@ -5,12 +5,23 @@
   </div>
 @endif
 
-@if (flash && flash.values.success)
-  <div class="alert alert-success">
-    {{ flash.values.success }}
+@if (flash && flash.values.error_question)
+  <div class="alert alert-question">
+    {{ flash.values.error_question ?? '' }}
   </div>
 @endif
 
+@if (flash && flash.values.error_response)
+  <div class="alert alert-reponse">
+    {{ flash.values.error_response ?? '' }}
+  </div>
+@endif
+
+@if (flash && flash.values.success)
+  <div class="alert alert-success">
+    {{ flash.values.success ?? '' }}
+  </div>
+@endif
 <style>
   /* Styles de base pour les messages flash */
   
@@ -27,6 +38,18 @@
   /* Style pour les messages d'erreur */
   
   .alert.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .alert.alert-reponse {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  .alert.alert-question {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
