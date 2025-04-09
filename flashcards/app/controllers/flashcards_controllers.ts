@@ -53,7 +53,7 @@ export default class FlashcardsController {
     const trimmedQuestion = question.trim()
     const trimmedAnswer = answer.trim()
 
-    // Vérifier que les champs obligatoires ne sont pas vide
+    // Vérifier que les champs obligatoires ne sont pas vides
     if (!trimmedQuestion || !trimmedAnswer) {
       session.flash({ error_response: 'La question et la réponse sont requises.' })
       session.flashAll() // Flash toutes les données du formulaire
