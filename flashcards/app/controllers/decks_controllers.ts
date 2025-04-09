@@ -29,25 +29,31 @@ export default class DecksController {
     }
   }
 
-  public async store({ request, response }: HttpContext) {
+  public async store({ request, response, session }: HttpContext) {
     const { name, description } = request.only(['name', 'description'])
 
-    const errors: Record<string, string> = {}
-
+    // Si la description est null ou vide, on redirige directement
     if (!description || description.length < 10) {
-      errors.description = 'La description doit contenir au moins 10 caractères.'
+      session.flash({ error: 'La description doit contenir au moins 10 caractères.' })
+      return response.redirect('/homeuser')
     }
 
+    // Check if a deck with the same name already exists
     const existingDeck = await Deck.query().where('name', name).first()
+
     if (existingDeck) {
-      errors.name = 'Un deck avec ce nom existe déjà.'
+      session.flash({ error: 'Un deck avec ce nom existe déjà.' })
+      return response.redirect('/decks')
     }
 
-    if (Object.keys(errors).length > 0) {
-      return response.status(400).json({ errors })
-    }
+    // Create the new deck if it passes validation
+    await Deck.create({
+      name,
+      description,
+    })
 
-    await Deck.create({ name, description })
+    console.log('New Deck Created:', { name, description })
+    session.flash({ success: 'Deck créé avec succès !' })
     return response.redirect('/decks')
   }
 

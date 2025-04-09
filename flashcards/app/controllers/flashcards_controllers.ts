@@ -45,40 +45,52 @@ export default class FlashcardsController {
   /**
    * Crée une flashcard pour un deck.
    */
-  public async store({ request, response, params }: HttpContext) {
-    const { question, answer } = request.only(['question', 'answer'])
-    const deck = await Deck.findOrFail(params.deckId)
+  public async store({ request, response, params, session }: HttpContext) {
+    try {
+      const { question, answer } = request.only(['question', 'answer'])
+      const deck = await Deck.findOrFail(params.deckId)
 
-    const errors: Record<string, string> = {}
+      // Supprime les espaces en début/fin
+      const trimmedQuestion = question.trim()
+      const trimmedAnswer = answer.trim()
 
-    if (!question || question.trim().length < 10) {
-      errors.question = 'La question doit contenir au moins 10 caractères.'
+      // Vérification des champs obligatoires
+      if (!trimmedQuestion || !trimmedAnswer) {
+        session.flash({ error: 'La question et la réponse sont requises.' })
+        return response.redirect().toRoute('flashcards.create', { deckId: deck.id })
+      }
+
+      // Vérification de la longueur de la question (au moins 10 caractères)
+      if (trimmedQuestion.length < 10) {
+        session.flash({ error: 'La question doit contenir au moins 10 caractères.' })
+        return response.redirect().toRoute('flashcards.create', { deckId: deck.id })
+      }
+
+      // Vérifie si une flashcard avec la même question existe déjà dans le deck
+      const existingCard = await Flashcard.query()
+        .where('deckId', deck.id)
+        .andWhere('question', trimmedQuestion)
+        .first()
+
+      if (existingCard) {
+        session.flash({ error: 'Cette question existe déjà.' })
+        return response.redirect().toRoute('decks.show', { id: deck.id })
+      }
+
+      // Création de la flashcard
+      await Flashcard.create({
+        question: trimmedQuestion,
+        answer: trimmedAnswer,
+        deckId: deck.id,
+      })
+
+      session.flash({ success: 'Carte créée avec succès !' })
+      return response.redirect().toRoute('decks.show', { id: deck.id })
+    } catch (error) {
+      console.error('Erreur lors de la création de la carte :', error)
+      session.flash({ error: 'Erreur lors de la création de la carte.' })
+      return response.redirect().toRoute('flashcards.create', { deckId: params.deckId })
     }
-
-    if (!answer || answer.trim().length === 0) {
-      errors.answer = 'La réponse est requise.'
-    }
-
-    const existingCard = await Flashcard.query()
-      .where('deckId', deck.id)
-      .andWhere('question', question.trim())
-      .first()
-
-    if (existingCard) {
-      errors.question = 'Cette question existe déjà.'
-    }
-
-    if (Object.keys(errors).length > 0) {
-      return response.status(400).json({ errors })
-    }
-
-    await Flashcard.create({
-      question: question.trim(),
-      answer: answer.trim(),
-      deckId: deck.id,
-    })
-
-    return response.redirect().toRoute('decks.show', { id: deck.id })
   }
 
   public async destroy({ params, response, session }: HttpContext) {
