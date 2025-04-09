@@ -6,9 +6,46 @@
     <meta name="csrf-token" content="{{ csrfToken }}" />
     <link rel="stylesheet" href="/resources/css/create.css" />
     <title>
+
       Create a New Deck
     </title>
     @vite(['resources/css/deck.css'])
+
+    <style>
+      /* Styles de base pour les messages flash */
+      
+      .alert {
+        padding: 1rem 1.25rem;
+        margin: 1rem 0;
+        border-radius: 4px;
+        font-size: 1rem;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.3s ease-in-out;
+      }
+      
+      /* Style pour les messages d'erreur */
+      
+      .alert.alert-question {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      
+      .alert.alert-reponse {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      
+      /* Style pour les messages de succès */
+      
+      .alert.alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+    </style>
   </head>
   <body>
 
@@ -16,7 +53,6 @@
 
     <!-- Main Content -->
     <main class="container">
-      @include('partials/flash_messages')
 
       <h1>
         Creez un nouveau Deck
@@ -28,15 +64,25 @@
           <div class="form-group">
             <label for="name">Question :</label>
             <input type="text" name="name" id="name" required />
-            <p class="error-message" id="name-error">
-            </p>
+            <div class="error-message" id="name-error">
+              @if (flash && flash.values.error_question)
+                <div class="alert alert-question">
+                  {{ flash.values.error_question }}
+                </div>
+              @endif
+            </div>
           </div>
 
           <div class="form-group">
             <label for="description">Réponse :</label>
             <textarea name="description" id="description"></textarea>
-            <p class="error-message" id="description-error">
-            </p>
+            <div class="error-message" id="description-error">
+              @if (flash && flash.values.error_response)
+                <div class="alert alert-reponse">
+                  {{ flash.values.error_response }}
+                </div>
+              @endif
+            </div>
           </div>
 
           <!-- Button Group -->
