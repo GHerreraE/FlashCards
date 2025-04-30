@@ -8,7 +8,7 @@ export default class AuthController {
 
     console.log('Méthode de la requête:', request.method())
 
-    // Si la requête est GET, afficher la vue de login avec les messages flash
+    // Si la requête est GET, afficher la vue de login avec les messages flashh
     if (request.method() === 'GET') {
       const flash = session.flashMessages ? session.flashMessages.toJSON() : {}
       console.log('Affichage de la page de login avec flash:', flash)
