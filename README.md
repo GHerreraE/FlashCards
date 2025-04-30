@@ -11,28 +11,27 @@ Projet de Gonzalo Herrera pour P_Bulles 2
 - Docker Desktop: v4.10.0
 - Docker Engine: v20.10.17
 
-### Procédure d'installation
+# 🚀 Procédure d'installation – FlashCards
 
-- Cloner le repo [Flashcards](https://github.com/GHerreraE/FlashCards)
+Ce projet peut être mis en place de **deux manières différentes** :
 
-- Ouvrir un cmd à la racine du projet
+---
 
-  - Dans le dossier `flashcards` (`cd flashcards`)
-  - Executer `npm install`
-  - Renommer le fichier `.env.example` en `.env`
-  - Puis `node ace generate:key`
+## ✅ 1. Installation en local (Node.js + Docker)
 
-- Dans le dossier `Docker_MySQL` (`cd ../Docker-Container`)
+La base de données MySQL sera lancée via Docker grâce à `docker-compose`.
 
-  - Executer `docker compose up -d`
-  - Puis `docker exec -it db_flashcards /bin/bash`
-  - Puis `mysql -u root -proot`
-  - Puis `create database db_flashcards;`
+👉 [Voir la procédure complète](./readme/installation-local.md)
 
-- Dans le dossier `flashcards` (`cd ../flashcards`)
+---
 
-  - Ensuite `node ace migration:fresh`
-  - Ensuite `node ace db:seed`
-  - Puis `npm run dev`
+## 🐳 2. Installation avec Docker (environnement isolé)
 
-- Aller sur [localhost:3333](http://localhost:3333)
+Cette méthode est recommandée pour une configuration rapide avec **Docker** et **Docker Compose**.
+
+👉 [Voir la procédure complète](./readme/installation-dockerisation.md)
+
+---
+
+Une fois installé, l'application sera accessible ici :  
+🔗 [http://localhost:3333](http://localhost:3333)
