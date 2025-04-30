@@ -1,5 +1,5 @@
 # Image de docker lègere et simple
-FROM node:18-alpine
+FROM node:20.10-alpine
 
 # On définit le repertoire de travail dans le conteneur
 # On va copier le code de l'application dans le conteneur 
