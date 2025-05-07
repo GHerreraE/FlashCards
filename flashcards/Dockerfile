@@ -16,10 +16,10 @@ RUN npm install
 # . veut dire le repertoire courant et le deuxieme . veut dire le repertoire parent
 COPY . .
 
-RUN npm run build
+
 
 # On expose le port 3333 pour l'application
 EXPOSE 3333
 
 # On lance l'application avec la commande npm run dev
-CMD ["node", "build/bin/server.js"]
+CMD ["npm", "run", "dev"]
