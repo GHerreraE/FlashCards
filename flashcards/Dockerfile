@@ -1,25 +1,25 @@
-# Image de docker lègere et simple
+# Dockerfile.prod
+
+# Étape 1 : Image Node.js légère
 FROM node:18-alpine
 
-# On définit le repertoire de travail dans le conteneur
-# On va copier le code de l'application dans le conteneur 
+# Étape 2 : Créer le dossier de travail
 WORKDIR /app
 
-# on copie le package.json et le package-lock.json dans le conteneur et on installe les dependances
+# Étape 3 : Copier les fichiers nécessaires pour installer les dépendances
 COPY package*.json ./
 
-# On installe les dépendances de l'application
+# Étape 4 : Installer les dépendances
 RUN npm install
 
-# On copie le reste du code de l'application dans le conteneur
-# On utilise le .dockerignore pour ne pas copier les fichiers inutiles
-# . veut dire le repertoire courant et le deuxieme . veut dire le repertoire parent
+# Étape 5 : Copier le reste de l'application
 COPY . .
 
+# Étape 6 : Compiler l’application AdonisJS (build TypeScript)
+RUN npm run build
 
-
-# On expose le port 3333 pour l'application
+# Étape 7 : Exposer le port utilisé par l'application
 EXPOSE 3333
 
-# On lance l'application avec la commande npm run dev
-CMD ["npm", "run", "dev"]
+# Étape 8 : Lancer l’application avec le script "start"
+CMD ["npm", "start"]
