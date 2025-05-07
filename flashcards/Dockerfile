@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 3333
 
 # On lance l'application avec la commande npm run dev
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
