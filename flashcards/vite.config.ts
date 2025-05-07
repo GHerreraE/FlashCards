@@ -1,18 +1,14 @@
 import { defineConfig } from 'vite'
 import adonisjs from '@adonisjs/vite/client'
+import glob from 'fast-glob'
+
+const cssFiles = glob.sync('resources/css/*.css')
+const jsFiles = glob.sync('resources/js/*.js')
 
 export default defineConfig({
   plugins: [
     adonisjs({
-      /**
-       * Entrypoints of your application. Each entrypoint will
-       * result in a separate bundle.
-       */
-      entrypoints: ['resources/css/app.css', 'resources/js/app.js'],
-
-      /**
-       * Paths to watch and reload the browser on file change
-       */
+      entrypoints: [...cssFiles, ...jsFiles],
       reload: ['resources/views/**/*.edge'],
     }),
   ],
