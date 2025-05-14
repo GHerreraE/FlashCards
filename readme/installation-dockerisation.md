@@ -4,20 +4,28 @@
 
 - Git
 - Node.js (v14+ recommandé)
-- Docker desktop
+- Docker Desktop
 
 ---
 
 ## 1. Cloner le dépôt
 
-- Exécuter `git clone https://github.com/GHerreraE/FlashCards.git`
+```bash
+git clone https://github.com/GHerreraE/FlashCards.git
+```
 
 ---
 
 ## 2. Lancer le script
 
-- Ouvrez une console bash dans le dossier `Flashcards` et executez `cd flashcards`
-- Ensuite exécutez : `./start.sh`
+- Ouvrez une console bash dans le dossier `Flashcards`
+
+```bash
+cd FlashCards
+cd flashcards
+./start.sh
+```
+
 - Ce script va faire :
 
   - Installer les dépendances (npm install)
@@ -32,3 +40,7 @@
 ---
 
 ✅ **Votre instance FlashCards est prête !**
+
+```
+
+```
