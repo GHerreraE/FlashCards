@@ -16,12 +16,13 @@
 
 ## 2. Lancer le script
 
-- Ouvrez un shell Bash dans le dossier flashcards puis exécutez : `./start.sh`
-- Ce script :
+- Ouvrez une console bash dans le dossier `Flashcards` et executez `cd flashcards`
+- Ensuite exécutez : `./start.sh`
+- Ce script va faire :
 
-  - Installe les dépendances (npm install)
-  - Génére la clé d’application (node ace generate:key)
-  - Monte et initialise la base MySQL via Docker
+  - Installer les dépendances (npm install)
+  - Générer la clé d’application (node ace generate:key)
+  - Monter et initialise la base MySQL via Docker
 
 ## 3. Accéder à l’application
 
