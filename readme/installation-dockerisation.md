@@ -40,7 +40,3 @@ cd flashcards
 ---
 
 ✅ **Votre instance FlashCards est prête !**
-
-```
-
-```
