@@ -4,7 +4,7 @@
 
 - Git
 - Node.js (v14+ recommandé)
-- Docker & Docker Compose
+- Docker Desktop
 
 ---
 
@@ -26,18 +26,15 @@
 
 ## 3. Démarrer MySQL avec Docker
 
-- Se rendre dans le dossier Docker : `cd ../Docker-Container`
 - Lancer les conteneurs en arrière-plan : `docker compose up -d`
-- Ouvrir un shell dans le conteneur MySQL : `docker exec -it db_flashcards /bin/bash`
-- Créer la base de données :
-  - `mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS db_flashcards;"`
-- Quitter MySQL puis le conteneur : taper `exit` deux fois
+- Ouvre `Docker Desktop` et lancez une console dans le conteneur `db_flashcards` et executez `mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS db_flashcards;"`
+- Fermez la console.
 
 ---
 
 ## 4. Lancer les migrations & démarrer le serveur
 
-- Revenir dans le dossier de l’application : `cd ../flashcards`
+- Revenir sur la console dans le dossier `flashcards`
 - Exécuter la commande de migration : `node ace migration:fresh`
 - Démarrer le serveur en mode développement : `npm run dev`
 

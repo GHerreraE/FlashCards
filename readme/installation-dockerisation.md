@@ -4,7 +4,7 @@
 
 - Git
 - Node.js (v14+ recommandé)
-- Docker & Docker Compose
+- Docker desktop
 
 ---
 
