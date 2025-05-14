@@ -13,6 +13,6 @@ Pour gérer les données de la base de données MySQL en développement, nous re
 3. Testez la connexion et enregistrez-la.
 4. Vous pouvez maintenant explorer les tables et exécuter vos requêtes directement depuis DBeaver.
 
-![alt text](./readme/image-1.png)
+![alt text](./image-1.png)
 
 ---

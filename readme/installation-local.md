@@ -10,33 +10,50 @@
 
 ## 1. Cloner le dépôt
 
-- Exécuter `git clone https://github.com/GHerreraE/FlashCards.git`
-- Se placer dans le dossier : `cd FlashCards`
+- Exécutez
+
+```bash
+git clone https://github.com/GHerreraE/FlashCards.git
+cd FlashCards
+```
 
 ---
 
 ## 2. Installer les dépendances & générer la clé
 
-- Se placer dans le dossier de l’application : `cd flashcards`
-- Installer les dépendances : `npm install`
-- Copier et renommer le fichier d’exemple : `cp .env.example .env`
-- Générer la clé d’application : `node ace generate:key`
+```bash
+cd flashcards
+npm install
+cp .env.example .env
+node ace generate:key
+```
 
 ---
 
 ## 3. Démarrer MySQL avec Docker
 
-- Lancer les conteneurs en arrière-plan : `docker compose up -d`
-- Ouvre `Docker Desktop` et lancez une console dans le conteneur `db_flashcards` et executez `mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS db_flashcards;"`
+```bash
+docker compose up -d
+```
+
+- Ouvre `Docker Desktop` et lancez une console dans le conteneur `db_flashcards` et execute
+
+```bash
+mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS db_flashcards;
+```
+
 - Fermez la console.
 
 ---
 
 ## 4. Lancer les migrations & démarrer le serveur
 
-- Revenir sur la console dans le dossier `flashcards`
-- Exécuter la commande de migration : `node ace migration:fresh`
-- Démarrer le serveur en mode développement : `npm run dev`
+- Revenir sur la console dans le dossier `flashcards` et executez
+
+```bash
+node ace migration:fresh
+npm run dev
+```
 
 ---
 
