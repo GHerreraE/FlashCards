@@ -27,6 +27,7 @@
 ## 3. Accéder à l’application
 
 - Ouvrir votre navigateur à l’adresse suivante : [http://localhost:3333](http://localhost:3333/home)
+- Gérez votre base de données avec une interface DBeaver👉 [Voir la procédure complète](./readme/connexion-db-dev.md)
 
 ---
 
