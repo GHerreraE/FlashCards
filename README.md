@@ -29,11 +29,6 @@ La base de données MySQL sera lancée via Docker grâce à `docker-compose`.
 
 Cette méthode est recommandée pour une configuration rapide avec **Docker** et **Docker Compose**.
 
-👉 [Voir la procédure complète](./readme/installation-dockerisation.md)
-
----
-
-Une fois installé, l'application sera accessible ici :  
-🔗 [http://localhost:3333](http://localhost:3333)
+👉 [Voir la procédure complète](.readme/installation-dockerisation.md)
 
 ---
