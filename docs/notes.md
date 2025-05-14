@@ -19,3 +19,4 @@
 ### 14.05.2025
 
 - Personell - Stage - Papiers
+- Aide projet Samuel Sallaku
