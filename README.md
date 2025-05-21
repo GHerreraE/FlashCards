@@ -1,6 +1,8 @@
 # FlashCards-GHE
 
-Projet de Gonzalo Herrera pour P_Bulles 2
+FlashCards est une application interactive d’apprentissage basée sur la technique des cartes mémoire (ou flashcards). L’objectif est de permettre à un utilisateur de créer, modifier et réviser des jeux de cartes contenant des questions-réponses, pour faciliter la mémorisation active.
+
+Cette application a été développée dans le cadre du module P_Bulles 2, qui vise à combiner plusieurs compétences en développement web et mobile, déploiement Dockerisé, gestion de base de données, et architecture d’applications modernes.
 
 ## Installation
 
@@ -30,5 +32,13 @@ La base de données MySQL sera lancée via Docker grâce à `docker-compose`.
 Cette méthode est recommandée pour une configuration rapide avec **Docker** et **Docker Compose**.
 
 👉 [Voir la procédure complète](./readme/installation-dockerisation.md)
+
+---
+
+## 🏁 3. Installation en environnement de production (Docker optimisé)
+
+Cette méthode est destinée à un **déploiement final**, avec une image Docker allégée, des dépendances préinstallées, et un démarrage automatique de l’application.
+
+👉 [Voir la procédure complète](./readme/mise-en-production.md)
 
 ---
