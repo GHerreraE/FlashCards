@@ -43,7 +43,7 @@ Cette méthode est destinée à un **déploiement final**, avec une image Docker
 
 ---
 
-## 🏁 3. Installation en environnement de staging
+## 🏁 4. Installation en environnement de staging
 
 Cette méthode est destinée à un **déploiement final**, avec une image Docker allégée, des dépendances préinstallées, et un démarrage automatique de l’application.
 
