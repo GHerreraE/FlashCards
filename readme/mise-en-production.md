@@ -75,9 +75,11 @@ DB_PASSWORD="ALLER CHERCHER"
 
 - ⚠️ Tu peux garder cette `APP_KEY` ou la générer en local
 - ⚠️ Pour obtenir ton \_`DB_PASSWORD` il faut aller dans le container de `MYSQL` et naviguer entre les variables et cherche ton MdP. Voici un exemple
+
   ![alt text](image-4.png)
 
 3. Déployez votre application, les migrations seront lancées
+
    ![alt text](image-5.png)
 
 ---
@@ -106,10 +108,10 @@ DB_PASSWORD="ALLER CHERCHER"
 
 ### 5. 🛡️ Recommendations finales
 
-- N’exécute qu’une seule fois node ace migration:run --force
+    - N’exécute qu’une seule fois node ace migration:run --force
 
-- Utilise un .env.production local pour tester avant de déployer
+    - Utilise un .env.production local pour tester avant de déployer
 
-- Active le HTTPS (fourni automatiquement par Railway)
+    - Active le HTTPS (fourni automatiquement par Railway)
 
-- Ne partage pas ton DB_PASSWORD
+    - Ne partage pas ton DB_PASSWORD
