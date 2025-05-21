@@ -42,3 +42,11 @@ Cette méthode est destinée à un **déploiement final**, avec une image Docker
 👉 [Voir la procédure complète](./readme/mise-en-production.md)
 
 ---
+
+## 🏁 3. Installation en environnement de staging
+
+Cette méthode est destinée à un **déploiement final**, avec une image Docker allégée, des dépendances préinstallées, et un démarrage automatique de l’application.
+
+👉 [Voir la procédure complète](./readme/mise-en-staging.md)
+
+---
