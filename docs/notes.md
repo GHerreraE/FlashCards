@@ -21,3 +21,8 @@
 - Personell - Stage - Papiers
 - Aide projet Samuel Sallaku
 - Aide projet Romain S.
+
+### 21.05.2025
+
+- Aide à Mathieuw à mettre son projet en production -> Il a des soucis avec les fichiers css
+- Quéstions avec M. Carrel -> Volume en docker compsoe et deux commandes pour lancer
