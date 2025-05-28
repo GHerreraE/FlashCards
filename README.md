@@ -41,6 +41,7 @@ Cette méthode est destinée à un **déploiement final**, avec une image Docker
 
 👉 [Voir la procédure complète](./readme/mise-en-production.md)
 
+- Lien = https://flashcards-production-993b.up.railway.app/home
 ---
 
 ## 🏁 4. Installation en environnement de staging
