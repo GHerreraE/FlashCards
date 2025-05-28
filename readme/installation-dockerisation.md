@@ -2,7 +2,7 @@
 
 ## Schèma
 
-![alt text](/dockerisation.png)
+![alt text](./dockerisation.png)
 
 ## 📋 Prérequis
 
