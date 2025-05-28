@@ -2,7 +2,7 @@
 
 ## Schèma
 
-![alt text](/dev.png)
+![alt text](./dev.png)
 
 ## 📋 Prérequis
 
