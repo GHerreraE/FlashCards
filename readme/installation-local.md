@@ -1,5 +1,9 @@
 # 🚀 FlashCards – Procédure d’installation (local)
 
+## Schèma
+
+![alt text](/dev.png)
+
 ## 📋 Prérequis
 
 - Git

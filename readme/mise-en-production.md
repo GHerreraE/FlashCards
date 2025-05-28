@@ -4,6 +4,10 @@ Ce guide décrit comment déployer le projet **FlashCards** sur [Railway](https:
 
 ---
 
+## Schèma
+
+![alt text](/production.png)
+
 ## ✅ Pré-requis
 
 - Un compte Railway : [https://railway.app](https://railway.app)

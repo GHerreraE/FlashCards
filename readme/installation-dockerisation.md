@@ -1,5 +1,9 @@
 # 🚀 FlashCards – Procédure d’installation (dockerisé)
 
+## Schèma
+
+![alt text](/dockerisation.png)
+
 ## 📋 Prérequis
 
 - Git

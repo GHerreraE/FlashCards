@@ -1,6 +1,8 @@
 # 🌐 Environnement de staging – FlashCards
 
----
+## Schèma
+
+![alt text](/staging.png)
 
 ## ✅ Qu’est-ce que l’environnement de staging ?
 
