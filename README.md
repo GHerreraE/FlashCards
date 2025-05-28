@@ -40,7 +40,8 @@ Cette méthode est recommandée pour une configuration rapide avec **Docker** et
 Cette méthode est destinée à un **déploiement final**, avec une image Docker allégée, des dépendances préinstallées, et un démarrage automatique de l’application.
 
 👉 [Voir la procédure complète](./readme/mise-en-production.md)
-Lien = https://flashcards-production-993b.up.railway.app/home
+
+- Lien = https://flashcards-production-993b.up.railway.app/home
 ---
 
 ## 🏁 4. Installation en environnement de staging
