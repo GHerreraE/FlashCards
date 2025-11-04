@@ -51,3 +51,4 @@ Cette méthode est destinée à un **déploiement final**, avec une image Docker
 👉 [Voir la procédure complète](./readme/mise-en-staging.md)
 
 ---
+(projet validé par XCL)
